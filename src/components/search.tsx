@@ -103,7 +103,7 @@ export default function Search<R>(props: SearchProps<R>) {
 
     return (
         <div className="hcContentContainer">
-            <div className="hcBasicSideMargin hcMarginTop1 hcMarginBottom1">
+            <div className="hcBasicSideMargin hcMarginBottom1">
                 <h1>Search</h1>
             </div>
             <div className="hcLayoutFacet-Result hcBasicSideMargin hcMarginBottom15">
