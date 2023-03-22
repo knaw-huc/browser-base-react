@@ -38,8 +38,10 @@ function BrowserBase<D, R>(props: BrowserBaseProps<D, R>) {
                 path: 'search/:code',
                 loader: createSearchLoader(props.searchUrl, props.pageLength, props.sortOrder),
                 element: <Search title={props.title}
+                                 withPaging={props.withPaging}
                                  facetsComponent={props.facetsComponent}
-                                 resultItemComponent={props.resultItemComponent}/>
+                                 resultItemComponent={props.resultItemComponent}
+                                 headersElement={props.headersElement}/>
             }, {
                 path: 'detail/:id',
                 loader: createDetailLoader(props.getFetchUrl),
@@ -61,4 +63,9 @@ function App(props: { header: ReactElement, footer?: ReactElement }) {
     );
 }
 
-export {BrowserBase, BrowserBaseProps, FreeTextFacet, ListFacet, ISendCandidate}
+export {
+    BrowserBase, BrowserBaseProps,
+    Search, SearchProps, createSearchLoader,
+    Detail, DetailProps, createDetailLoader,
+    ISendCandidate, FreeTextFacet, ListFacet
+}

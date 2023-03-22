@@ -10,7 +10,8 @@ Build the package using:
 
 ## Usage
 
-The plugin comes with a `BrowserBase` component and multiple facet components.
+The plugin comes with a `BrowserBase` component or the individual `Search` and `Detail` components and multiple facet
+components.
 
 ### `BrowserBase`
 
@@ -55,10 +56,46 @@ All available parameters:
 | `searchUrl`           | `string`                 | ✓        | The URL to use for searching                                                                                                                     |
 | `pageLength`          | `number`                 |          | The default page length                                                                                                                          |
 | `sortOrder`           | `number`                 |          | The default sort order                                                                                                                           |
+| `withPaging`          | `boolean`                |          | If paging should be enabled; if absent it defaults to `false`                                                                                    |
 | `getFetchUrl`         | `(id: string) => string` | ✓        | A function that receives an identifier and returns the URL to obtain the item data                                                               |
 | `detailComponent`     | `FunctionComponent`      | ✓        | A React component to render an item; has to accept a parameter `data` with the data object                                                       |
 | `resultItemComponent` | `FunctionComponent`      | ✓        | A React component to render an item in the result list; has to accept a parameter `item` with the item object                                    |
 | `facetsComponent`     | `FunctionComponent`      | ✓        | A React component with the facets to render for searching; has to accept a parameter `sendCandidateHandler` to propagate to the facet components |
+| `headersElement`      | `ReactElement`           |          | A React component with the headers to render for searching                                                                                       |
+
+### Search and Detail
+
+The React components `Search` and `Detail` can be used to set up your own routing for the search and detail pages. To
+create loader for React Router, use the helper functions `createSearchLoader` and `createDetailLoader`. Make sure to
+include `code` in the search URL and `id` in the detail URL:
+
+```jsx
+const searchLoader = createSearchLoader("http://localhost:5000/browse");
+const detailLoader = createDetailLoader(id => 'http://localhost:5000/detail?rec=' + id);
+
+<Search title="My browser!"
+        resultItemComponent={MyListDetails}
+        facetsComponent={MyFacets}/>
+
+<Detail title="My browser!"
+        detailComponent={MyDetail}/>
+
+function MyDetail(params) {
+    return <div>{params.data}</div>;
+}
+
+function MyListDetails(params) {
+    return <div>{params.item}</div>;
+}
+
+function MyFacets(params) {
+    return <>
+        <FreeTextFacet add={params.sendCandidateHandler}/>
+        <ListFacet parentCallback={params.sendCandidateHandler}
+                   name="Title" field="title" url="http://localhost:5000/facet"/>
+    </>;
+}
+```
 
 ### Facets
 

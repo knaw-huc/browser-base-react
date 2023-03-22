@@ -1,10 +1,21 @@
 /// <reference types="react" />
 import { FunctionComponent, ReactElement } from 'react';
-import { RouteObject } from 'react-router-dom';
+import { LoaderFunctionArgs, RouteObject } from 'react-router-dom';
 
 interface IMetadata {
     title: string;
     description: string;
+}
+interface ISearchValues {
+    name: string;
+    field: string;
+    values: string[];
+}
+interface ISearchObject {
+    searchvalues: ISearchValues[];
+    page: number;
+    page_length: number;
+    sortorder: string;
 }
 interface ISendCandidate {
     (data: IFacetCandidate): void;
@@ -22,13 +33,20 @@ interface IFacetCandidate {
 
 interface SearchProps<R> {
     title: string;
+    withPaging?: boolean;
     resultItemComponent: FunctionComponent<{
         item: R;
     }>;
     facetsComponent: FunctionComponent<{
         sendCandidateHandler: ISendCandidate;
     }>;
+    headersElement?: ReactElement;
 }
+declare function createSearchLoader(searchUrl: string, pageLength?: number, sortOrder?: string): ({ params }: LoaderFunctionArgs) => Promise<{
+    searchStruc: ISearchObject;
+    result: any;
+}>;
+declare function Search<R>(props: SearchProps<R>): JSX.Element;
 
 interface DetailProps<D> {
     title: string;
@@ -36,6 +54,8 @@ interface DetailProps<D> {
         data: D;
     }>;
 }
+declare const createDetailLoader: (getFetchUrl: (id: string) => string) => ({ params }: LoaderFunctionArgs) => Promise<Response>;
+declare function Detail<D>(props: DetailProps<D>): JSX.Element;
 
 declare function FreeTextFacet(props: {
     add: ISendCandidate;
@@ -60,4 +80,4 @@ interface BrowserBaseProps<D, R> extends IMetadata, DetailProps<D>, SearchProps<
 }
 declare function BrowserBase<D, R>(props: BrowserBaseProps<D, R>): JSX.Element;
 
-export { BrowserBase, BrowserBaseProps, FreeTextFacet, ISendCandidate, ListFacet };
+export { BrowserBase, BrowserBaseProps, Detail, DetailProps, FreeTextFacet, ISendCandidate, ListFacet, Search, SearchProps, createDetailLoader, createSearchLoader };

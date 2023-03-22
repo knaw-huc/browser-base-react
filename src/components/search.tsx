@@ -1,4 +1,4 @@
-import React, {FunctionComponent} from 'react';
+import React, {FunctionComponent, ReactElement} from 'react';
 import {useNavigate, LoaderFunctionArgs, useLoaderData, useNavigation} from 'react-router-dom';
 import {
     ISendCandidate,
@@ -10,8 +10,10 @@ import {
 
 export interface SearchProps<R> {
     title: string;
+    withPaging?: boolean;
     resultItemComponent: FunctionComponent<{ item: R }>;
     facetsComponent: FunctionComponent<{ sendCandidateHandler: ISendCandidate }>;
+    headersElement?: ReactElement;
 }
 
 export function createSearchLoader(searchUrl: string, pageLength?: number, sortOrder?: string) {
@@ -45,6 +47,11 @@ export default function Search<R>(props: SearchProps<R>) {
     const cross = '[x]';
     document.title = `Search | ${props.title}`;
 
+    function doSearch(searchStruc: ISearchObject) {
+        navigate('/search/' + window.btoa(JSON.stringify(searchStruc)));
+        window.scroll(0, 0);
+    }
+
     function removeFacet(field: string, value: string) {
         if (typeof searchStruc.searchvalues === 'object') {
             searchStruc.searchvalues.forEach((item: ISearchValues) => {
@@ -57,13 +64,26 @@ export default function Search<R>(props: SearchProps<R>) {
                 searchStruc.searchvalues = [];
             }
         }
-        navigate('/search/' + window.btoa(JSON.stringify(searchStruc)));
-        window.scroll(0, 0);
+
+        doSearch({...searchStruc, page: 1});
     }
 
     function resetFacets() {
-        searchStruc.searchvalues = [];
-        navigate('/search/' + window.btoa(JSON.stringify(searchStruc)));
+        doSearch({...searchStruc, searchvalues: [], page: 1});
+    }
+
+    function nextPage() {
+        doSearch({...searchStruc, page: searchStruc.page + 1});
+    }
+
+    function selectPage(page: number) {
+        doSearch({...searchStruc, page});
+    }
+
+    function prevPage() {
+        if (searchStruc.page > 0) {
+            doSearch({...searchStruc, page: searchStruc.page - 1});
+        }
     }
 
     const sendCandidate: ISendCandidate = (candidate: IFacetCandidate) => {
@@ -73,7 +93,6 @@ export default function Search<R>(props: SearchProps<R>) {
                 field: candidate.field,
                 values: [candidate.candidate]
             } as ISearchValues];
-            searchStruc.page = 1;
         }
         else {
             if (typeof searchStruc.searchvalues === 'object') {
@@ -95,8 +114,8 @@ export default function Search<R>(props: SearchProps<R>) {
                 }
             }
         }
-        navigate('/search/' + window.btoa(JSON.stringify(searchStruc)));
-        window.scroll(0, 0);
+
+        doSearch({...searchStruc, page: 1});
     }
 
     return (
@@ -114,7 +133,11 @@ export default function Search<R>(props: SearchProps<R>) {
 
                 <div className="hcLayoutResults">
                     <div className="hcResultsHeader hcMarginBottom1">
-                        <div>{result.amount} items found</div>
+                        {props.withPaging
+                            ? result.amount > 9999
+                                ? <div>{result.amount}+ results, page {searchStruc.page} of {result.pages} pages</div>
+                                : <div>{result.amount} results, page {searchStruc.page} of {result.pages} pages</div>
+                            : <div>{result.amount} items found</div>}
                     </div>
 
                     <div className="hcMarginBottom2">
@@ -137,13 +160,37 @@ export default function Search<R>(props: SearchProps<R>) {
                         )))}
                     </div>
 
+                    {props.headersElement}
+
                     {navigation.state === 'loading'
                         ? <div className="hcResultListLoading">Loading...</div>
-                        : <div>
-                            {result.items.map((item: R, index: number) =>
-                                <props.resultItemComponent item={item} key={index}/>
-                            )}
-                        </div>}
+                        : <>
+                            <div>
+                                {result.items.map((item: R, index: number) =>
+                                    <props.resultItemComponent item={item} key={index}/>
+                                )}
+                            </div>
+                            {props.withPaging && result.amount > searchStruc.page_length && (
+                                <div className="hcPagination">
+                                    {searchStruc.page < 2
+                                        ? <div/>
+                                        : <div className="hcClickable" onClick={prevPage}>&#8592; Previous</div>}
+
+                                    <div className="hcClickable">
+                                        <select className="hcPageSelector" value={searchStruc.page}
+                                                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                                                    selectPage(Number(e.target.value))}>
+                                            {Array.from({length: result.pages}, (x, i) =>
+                                                <option key={i + 1} value={i + 1}>{i + 1}</option>
+                                            )}
+                                        </select>
+                                    </div>
+
+                                    {searchStruc.page < result.pages
+                                        ? <div className="hcClickable" onClick={nextPage}>Next &#8594;</div>
+                                        : <div/>}
+                                </div>)}
+                        </>}
                 </div>
             </div>
         </div>

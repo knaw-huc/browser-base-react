@@ -1,7 +1,7 @@
 import { ReactElement } from 'react';
 import { RouteObject } from 'react-router-dom';
-import { SearchProps } from './components/search.js';
-import { DetailProps } from './components/detail.js';
+import Search, { createSearchLoader, SearchProps } from './components/search.js';
+import Detail, { createDetailLoader, DetailProps } from './components/detail.js';
 import FreeTextFacet from './facets/freeTextFacet.js';
 import ListFacet from './facets/listFacet.js';
 import { IMetadata, ISendCandidate } from './misc/interfaces.js';
@@ -17,4 +17,4 @@ interface BrowserBaseProps<D, R> extends IMetadata, DetailProps<D>, SearchProps<
     getFetchUrl: (id: string) => string;
 }
 declare function BrowserBase<D, R>(props: BrowserBaseProps<D, R>): JSX.Element;
-export { BrowserBase, BrowserBaseProps, FreeTextFacet, ListFacet, ISendCandidate };
+export { BrowserBase, BrowserBaseProps, Search, SearchProps, createSearchLoader, Detail, DetailProps, createDetailLoader, ISendCandidate, FreeTextFacet, ListFacet };
