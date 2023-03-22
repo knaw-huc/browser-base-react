@@ -1,7 +1,7 @@
 import React, {ReactElement} from 'react';
 import {RouteObject, RouterProvider, Outlet, createBrowserRouter} from 'react-router-dom';
 
-import Collections from './components/collections.js';
+import Home from './components/home.js';
 import Search, {createSearchLoader, SearchProps} from './components/search.js';
 import Detail, {createDetailLoader, DetailProps} from './components/detail.js';
 
@@ -33,8 +33,7 @@ function BrowserBase<D, R>(props: BrowserBaseProps<D, R>) {
             ...(props.childRoutes || []),
             {
                 index: true,
-                element: props.rootElement || <Collections title={props.title}
-                                                           description={props.description}/>
+                element: props.rootElement || <Home title={props.title} description={props.description}/>
             }, {
                 path: 'search/:code',
                 loader: createSearchLoader(props.searchUrl, props.pageLength, props.sortOrder),
@@ -54,11 +53,11 @@ function BrowserBase<D, R>(props: BrowserBaseProps<D, R>) {
 
 function App(props: { header: ReactElement, footer?: ReactElement }) {
     return (
-        <div className="App">
+        <>
             {props.header}
             <Outlet/>
             {props.footer}
-        </div>
+        </>
     );
 }
 

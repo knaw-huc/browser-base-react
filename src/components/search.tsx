@@ -5,9 +5,7 @@ import {
     IFacetCandidate,
     ISearchObject,
     ISearchValues,
-    IResetFacets,
     IResultList,
-    IRemoveFacet,
 } from '../misc/interfaces';
 
 export interface SearchProps<R> {
@@ -47,7 +45,7 @@ export default function Search<R>(props: SearchProps<R>) {
     const cross = '[x]';
     document.title = `Search | ${props.title}`;
 
-    const removeFacet: IRemoveFacet = (field: string, value: string) => {
+    function removeFacet(field: string, value: string) {
         if (typeof searchStruc.searchvalues === 'object') {
             searchStruc.searchvalues.forEach((item: ISearchValues) => {
                 if (item.name === field) {
@@ -63,7 +61,7 @@ export default function Search<R>(props: SearchProps<R>) {
         window.scroll(0, 0);
     }
 
-    const resetFacets: IResetFacets = () => {
+    function resetFacets() {
         searchStruc.searchvalues = [];
         navigate('/search/' + window.btoa(JSON.stringify(searchStruc)));
     }
@@ -106,18 +104,24 @@ export default function Search<R>(props: SearchProps<R>) {
             <div className="hcBasicSideMargin hcMarginBottom1">
                 <h1>Search</h1>
             </div>
-            <div className="hcLayoutFacet-Result hcBasicSideMargin hcMarginBottom15">
+
+            <div className="hcLayoutFacet-Result hcBasicSideMargin">
                 <div className="hcLayoutFacets">
-                    <props.facetsComponent sendCandidateHandler={sendCandidate}/>
+                    <div className="hcLayoutFacetsToggel">
+                        <props.facetsComponent sendCandidateHandler={sendCandidate}/>
+                    </div>
                 </div>
+
                 <div className="hcLayoutResults">
                     <div className="hcResultsHeader hcMarginBottom1">
                         <div>{result.amount} items found</div>
                     </div>
+
                     <div className="hcMarginBottom2">
                         <div className="hcSmallTxt hcTxtColorGreyMid">Selected facets:
                             <span className="hcFacetReset hcClickable" onClick={resetFacets}>Reset facets</span>
                         </div>
+
                         {searchStruc.searchvalues.length === 0 ? (<span className="hcSelectedFacet">
                             <span className="hcSelectedFacetType">None</span>
                         </span>) : (searchStruc.searchvalues.map((item: ISearchValues) => (
@@ -132,11 +136,14 @@ export default function Search<R>(props: SearchProps<R>) {
                             </span>
                         )))}
                     </div>
+
                     {navigation.state === 'loading'
                         ? <div className="hcResultListLoading">Loading...</div>
-                        : result.items.map((item: R, index: number) =>
-                            <props.resultItemComponent item={item} key={index}/>
-                        )}
+                        : <div>
+                            {result.items.map((item: R, index: number) =>
+                                <props.resultItemComponent item={item} key={index}/>
+                            )}
+                        </div>}
                 </div>
             </div>
         </div>

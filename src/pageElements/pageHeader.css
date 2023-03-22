@@ -1,0 +1,42 @@
+.hcPageHeaderSimple {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    width: 100%;
+}
+
+.hcPageHeaderSimple > * {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.hcBrand {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    height: 100%;
+}
+
+.hcTitle {
+    display: inline-block;
+    font-weight: bold;
+    font-size: 24px;
+    padding-top: 18px;
+}
+
+.pageHeader {
+    margin-bottom: 1rem;
+    background-color: #082045;
+    color: #fff;
+}
+
+.pageHeader a {
+    color: #fff;
+}
+
+.pageHeaderAfter {
+    margin-bottom: 5rem;
+    border-bottom: 1px solid #ededed;
+}

@@ -30,14 +30,8 @@ export interface IFacetCandidate {
     field: string;
     candidate: string;
 }
-export interface IRemoveFacet {
-    (field: string, value: string): void;
-}
 export interface IResultList<R> {
     amount: number;
     pages: number;
     items: R[];
-}
-export interface IResetFacets {
-    (): void;
 }
