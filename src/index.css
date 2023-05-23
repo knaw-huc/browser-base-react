@@ -62,28 +62,20 @@ h1, h2 {
         line-height: 150%;
     }
 
-    span {
+    span.hcSelectedFacet, span.hcSelectedFacetType {
         display: flex;
         flex-direction: row;
         align-items: baseline;
         padding-right: 1rem;
     }
-
-    select {
-        background-color: none;
-    }
 }
 
-p {
+.hcContentContainer p {
     margin-top: 0;
     margin-bottom: 1em;
 }
 
-strong {
-    font-weight: 700;
-}
-
-button {
+.hcFacet button, .hcButton {
     font-size: 0.7rem;
     padding: 0.5rem;
     border-radius: 4px;
@@ -95,7 +87,7 @@ button {
     max-height: 40px;
 }
 
-input, select, option, textarea {
+.hcFacet input, .hcPageSelector select {
     width: 100%;
     padding: 0.5rem;
     border: 1px solid #e1ebf3;
@@ -106,12 +98,7 @@ input, select, option, textarea {
     height: 40px;
 }
 
-input[type=checkbox] {
-    width: 20px;
-    height: 20px;
-}
-
-input::placeholder {
+.hcFacetSearch input::placeholder {
     color: gray;
     font-style: italic;
     font-size: 0.85rem;

@@ -30,7 +30,7 @@ export default function FreeTextFacet(props: {add: ISendCandidate}) {
         <div className="hcFacet">
             <div className="hcFacetTitle">Text search</div>
             <div className="hcFacetSearch">
-                <input type="text" name="" id="freeText" value={textField} placeholder="Press ENTER to search"  onChange={handleChange} onKeyUp={handleKeyPress}/>
+                <input type="text" value={textField} placeholder="Press ENTER to search" onChange={handleChange} onKeyUp={handleKeyPress}/>
                 <button type="button" name="button" onClick={() => {setTextFacet()}}>Search</button>
             </div>
         </div>
