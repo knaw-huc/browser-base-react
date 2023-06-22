@@ -47,6 +47,7 @@ All available parameters:
 
 | Parameter             | Value type               | Required |                                                                                                                                                  |
 |-----------------------|--------------------------|----------|--------------------------------------------------------------------------------------------------------------------------------------------------|
+| `noIndexPage`         | `boolean`                |          | If the index page should be disabled and immediately show the search index ; if absent it defaults to `false`                                    |   
 | `title`               | `string`                 | ✓        | The title of the browser                                                                                                                         |
 | `description`         | `string`                 | ✓        | The description of the browser                                                                                                                   |
 | `headerElement`       | `ReactElement`           |          | The header to render; if absent a default header is placed with the title                                                                        |

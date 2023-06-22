@@ -1,5 +1,5 @@
-/// <reference types="react" />
+import React from 'react';
 import './pageHeader.css';
 export default function PageHeader(props: {
     title: string;
-}): JSX.Element;
+}): React.JSX.Element;

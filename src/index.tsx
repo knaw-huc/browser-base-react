@@ -1,7 +1,6 @@
 import React, {ReactElement} from 'react';
-import {RouteObject, RouterProvider, Outlet, createBrowserRouter} from 'react-router-dom';
+import {Link, RouteObject, RouterProvider, Outlet, createBrowserRouter} from 'react-router-dom';
 
-import Home from './components/home.js';
 import Search, {createSearchLoader, SearchProps} from './components/search.js';
 import Detail, {createDetailLoader, DetailProps} from './components/detail.js';
 
@@ -25,6 +24,14 @@ interface BrowserBaseProps<D, R> extends IMetadata, DetailProps<D>, SearchProps<
 }
 
 function BrowserBase<D, R>(props: BrowserBaseProps<D, R>) {
+    const searchLoader = createSearchLoader(props.searchUrl, props.pageLength, props.sortOrder);
+    const searchElement = <Search title={props.title}
+                                  noIndexPage={props.noIndexPage}
+                                  withPaging={props.withPaging}
+                                  facetsComponent={props.facetsComponent}
+                                  resultItemComponent={props.resultItemComponent}
+                                  headersElement={props.headersElement}/>;
+
     const routeObject: RouteObject = {
         path: '/',
         element: <App header={props.headerElement || <PageHeader title={props.title}/>}
@@ -33,15 +40,15 @@ function BrowserBase<D, R>(props: BrowserBaseProps<D, R>) {
             ...(props.childRoutes || []),
             {
                 index: true,
-                element: props.rootElement || <Home title={props.title} description={props.description}/>
+                loader: props.noIndexPage ? searchLoader : undefined,
+                element: props.noIndexPage
+                    ? searchElement
+                    : props.rootElement || <Home title={props.title} description={props.description}/>,
+
             }, {
-                path: 'search/:code',
-                loader: createSearchLoader(props.searchUrl, props.pageLength, props.sortOrder),
-                element: <Search title={props.title}
-                                 withPaging={props.withPaging}
-                                 facetsComponent={props.facetsComponent}
-                                 resultItemComponent={props.resultItemComponent}
-                                 headersElement={props.headersElement}/>
+                path: props.noIndexPage ? ':code' : 'search/:code',
+                loader: searchLoader,
+                element: searchElement
             }, {
                 path: 'detail/:id',
                 loader: createDetailLoader(props.getFetchUrl),
@@ -51,6 +58,18 @@ function BrowserBase<D, R>(props: BrowserBaseProps<D, R>) {
     };
 
     return <RouterProvider router={createBrowserRouter([routeObject])}/>;
+}
+
+function Home(props: IMetadata) {
+    document.title = props.title;
+
+    return (
+        <div className="hcContentContainer">
+            <h2>{props.title}</h2>
+            <p>{props.description}</p>
+            <Link to="search/">Browse</Link>
+        </div>
+    );
 }
 
 function App(props: { header: ReactElement, footer?: ReactElement }) {

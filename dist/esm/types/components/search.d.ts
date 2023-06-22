@@ -1,8 +1,9 @@
-import { FunctionComponent, ReactElement } from 'react';
+import React, { FunctionComponent, ReactElement } from 'react';
 import { LoaderFunctionArgs } from 'react-router-dom';
 import { ISendCandidate, ISearchObject } from '../misc/interfaces';
 export interface SearchProps<R> {
     title: string;
+    noIndexPage?: boolean;
     withPaging?: boolean;
     resultItemComponent: FunctionComponent<{
         item: R;
@@ -16,4 +17,4 @@ export declare function createSearchLoader(searchUrl: string, pageLength?: numbe
     searchStruc: ISearchObject;
     result: any;
 }>;
-export default function Search<R>(props: SearchProps<R>): JSX.Element;
+export default function Search<R>(props: SearchProps<R>): React.JSX.Element;

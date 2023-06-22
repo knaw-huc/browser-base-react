@@ -10,6 +10,7 @@ import {
 
 export interface SearchProps<R> {
     title: string;
+    noIndexPage?: boolean;
     withPaging?: boolean;
     resultItemComponent: FunctionComponent<{ item: R }>;
     facetsComponent: FunctionComponent<{ sendCandidateHandler: ISendCandidate }>;
@@ -18,13 +19,22 @@ export interface SearchProps<R> {
 
 export function createSearchLoader(searchUrl: string, pageLength?: number, sortOrder?: string) {
     return async ({params}: LoaderFunctionArgs) => {
-        const parameters: ISearchObject = JSON.parse(window.atob(params.code as string));
-        const searchStruc: ISearchObject = {
-            searchvalues: parameters.searchvalues,
-            page: parameters.page,
+        let searchStruc: ISearchObject = {
+            searchvalues: [],
+            page: 1,
             page_length: pageLength || 500,
             sortorder: sortOrder || 'title'
         };
+
+        if (params.code) {
+            const parameters: ISearchObject = JSON.parse(window.atob(params.code));
+            searchStruc = {
+                searchvalues: parameters.searchvalues,
+                page: parameters.page,
+                page_length: pageLength || 500,
+                sortorder: sortOrder || 'title'
+            };
+        }
 
         const result = await fetch(searchUrl, {
             method: 'POST',
@@ -48,7 +58,7 @@ export default function Search<R>(props: SearchProps<R>) {
     document.title = `Search | ${props.title}`;
 
     function doSearch(searchStruc: ISearchObject) {
-        navigate('/search/' + window.btoa(JSON.stringify(searchStruc)));
+        navigate((props.noIndexPage ? '/' : '/search/') + window.btoa(JSON.stringify(searchStruc)));
         window.scroll(0, 0);
     }
 

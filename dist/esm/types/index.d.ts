@@ -1,4 +1,4 @@
-import { ReactElement } from 'react';
+import React, { ReactElement } from 'react';
 import { RouteObject } from 'react-router-dom';
 import Search, { createSearchLoader, SearchProps } from './components/search.js';
 import Detail, { createDetailLoader, DetailProps } from './components/detail.js';
@@ -16,5 +16,5 @@ interface BrowserBaseProps<D, R> extends IMetadata, DetailProps<D>, SearchProps<
     sortOrder?: string;
     getFetchUrl: (id: string) => string;
 }
-declare function BrowserBase<D, R>(props: BrowserBaseProps<D, R>): JSX.Element;
+declare function BrowserBase<D, R>(props: BrowserBaseProps<D, R>): React.JSX.Element;
 export { BrowserBase, BrowserBaseProps, Search, SearchProps, createSearchLoader, Detail, DetailProps, createDetailLoader, ISendCandidate, FreeTextFacet, ListFacet };

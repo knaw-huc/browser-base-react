@@ -1,5 +1,4 @@
-/// <reference types="react" />
-import { FunctionComponent, ReactElement } from 'react';
+import React, { FunctionComponent, ReactElement } from 'react';
 import { LoaderFunctionArgs, RouteObject } from 'react-router-dom';
 
 interface IMetadata {
@@ -33,6 +32,7 @@ interface IFacetCandidate {
 
 interface SearchProps<R> {
     title: string;
+    noIndexPage?: boolean;
     withPaging?: boolean;
     resultItemComponent: FunctionComponent<{
         item: R;
@@ -46,7 +46,7 @@ declare function createSearchLoader(searchUrl: string, pageLength?: number, sort
     searchStruc: ISearchObject;
     result: any;
 }>;
-declare function Search<R>(props: SearchProps<R>): JSX.Element;
+declare function Search<R>(props: SearchProps<R>): React.JSX.Element;
 
 interface DetailProps<D> {
     title: string;
@@ -55,18 +55,18 @@ interface DetailProps<D> {
     }>;
 }
 declare const createDetailLoader: (getFetchUrl: (id: string) => string) => ({ params }: LoaderFunctionArgs) => Promise<Response>;
-declare function Detail<D>(props: DetailProps<D>): JSX.Element;
+declare function Detail<D>(props: DetailProps<D>): React.JSX.Element;
 
 declare function FreeTextFacet(props: {
     add: ISendCandidate;
-}): JSX.Element;
+}): React.JSX.Element;
 
 declare function ListFacet(props: {
     parentCallback: ISendCandidate;
     name: string;
     field: string;
     url: string;
-}): JSX.Element;
+}): React.JSX.Element;
 
 interface BrowserBaseProps<D, R> extends IMetadata, DetailProps<D>, SearchProps<R> {
     headerElement?: ReactElement;
@@ -78,6 +78,6 @@ interface BrowserBaseProps<D, R> extends IMetadata, DetailProps<D>, SearchProps<
     sortOrder?: string;
     getFetchUrl: (id: string) => string;
 }
-declare function BrowserBase<D, R>(props: BrowserBaseProps<D, R>): JSX.Element;
+declare function BrowserBase<D, R>(props: BrowserBaseProps<D, R>): React.JSX.Element;
 
 export { BrowserBase, BrowserBaseProps, Detail, DetailProps, FreeTextFacet, ISendCandidate, ListFacet, Search, SearchProps, createDetailLoader, createSearchLoader };
