@@ -50,6 +50,7 @@ All available parameters:
 | `noIndexPage`         | `boolean`                |          | If the index page should be disabled and immediately show the search index ; if absent it defaults to `false`                                    |   
 | `title`               | `string`                 | ✓        | The title of the browser                                                                                                                         |
 | `description`         | `string`                 |          | The description of the browser                                                                                                                   |
+| `appComponent`        | `FunctionComponent`      |          | A React component to render the app component; has to accept children for the React Browser Outlet                                               |
 | `headerElement`       | `ReactElement`           |          | The header to render; if absent a default header is placed with the title                                                                        |
 | `footerElement`       | `ReactElement`           |          | The footer to render; if absent no footer is rendered                                                                                            |
 | `rootElement`         | `ReactElement`           |          | The root page to render; if absent a default root page with the title and description is rendered                                                |

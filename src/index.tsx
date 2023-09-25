@@ -1,4 +1,4 @@
-import React, {ReactElement} from 'react';
+import React, {FunctionComponent, ReactElement} from 'react';
 import {Link, RouteObject, RouterProvider, Outlet, createBrowserRouter} from 'react-router-dom';
 
 import Search, {createSearchLoader, SearchProps} from './components/search.js';
@@ -13,6 +13,7 @@ import {IMetadata, ISendCandidate} from './misc/interfaces.js';
 import './index.css';
 
 interface BrowserBaseProps<D, R> extends IMetadata, DetailProps<D>, SearchProps<R> {
+    appComponent?: FunctionComponent<{ children: ReactElement }>;
     headerElement?: ReactElement;
     footerElement?: ReactElement;
     rootElement?: ReactElement;
@@ -24,6 +25,15 @@ interface BrowserBaseProps<D, R> extends IMetadata, DetailProps<D>, SearchProps<
 }
 
 function BrowserBase<D, R>(props: BrowserBaseProps<D, R>) {
+    const appElement = props.appComponent ? (
+        <props.appComponent>
+            <Outlet/>
+        </props.appComponent>
+    ) : (
+        <App header={props.headerElement || <PageHeader title={props.title}/>}
+             footer={props.footerElement}/>
+    );
+
     const searchLoader = createSearchLoader(props.searchUrl, props.pageLength, props.sortOrder);
     const searchElement = <Search title={props.title}
                                   noIndexPage={props.noIndexPage}
@@ -34,8 +44,7 @@ function BrowserBase<D, R>(props: BrowserBaseProps<D, R>) {
 
     const routeObject: RouteObject = {
         path: '/',
-        element: <App header={props.headerElement || <PageHeader title={props.title}/>}
-                      footer={props.footerElement}/>,
+        element: appElement,
         children: [
             ...(props.childRoutes || []),
             {

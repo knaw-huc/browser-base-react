@@ -69,6 +69,9 @@ declare function ListFacet(props: {
 }): React.JSX.Element;
 
 interface BrowserBaseProps<D, R> extends IMetadata, DetailProps<D>, SearchProps<R> {
+    appComponent?: FunctionComponent<{
+        children: ReactElement;
+    }>;
     headerElement?: ReactElement;
     footerElement?: ReactElement;
     rootElement?: ReactElement;

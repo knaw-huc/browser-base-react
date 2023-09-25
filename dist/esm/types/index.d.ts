@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { FunctionComponent, ReactElement } from 'react';
 import { RouteObject } from 'react-router-dom';
 import Search, { createSearchLoader, SearchProps } from './components/search.js';
 import Detail, { createDetailLoader, DetailProps } from './components/detail.js';
@@ -7,6 +7,9 @@ import ListFacet from './facets/listFacet.js';
 import { IMetadata, ISendCandidate } from './misc/interfaces.js';
 import './index.css';
 interface BrowserBaseProps<D, R> extends IMetadata, DetailProps<D>, SearchProps<R> {
+    appComponent?: FunctionComponent<{
+        children: ReactElement;
+    }>;
     headerElement?: ReactElement;
     footerElement?: ReactElement;
     rootElement?: ReactElement;
