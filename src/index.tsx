@@ -66,7 +66,7 @@ function Home(props: IMetadata) {
     return (
         <div className="hcContentContainer">
             <h2>{props.title}</h2>
-            <p>{props.description}</p>
+            {props.description && <p>{props.description}</p>}
             <Link to="search/">Browse</Link>
         </div>
     );

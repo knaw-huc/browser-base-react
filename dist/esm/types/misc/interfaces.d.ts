@@ -1,6 +1,6 @@
 export interface IMetadata {
     title: string;
-    description: string;
+    description?: string;
 }
 export interface IFacetValue {
     key: string;

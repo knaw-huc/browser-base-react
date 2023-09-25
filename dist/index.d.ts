@@ -3,7 +3,7 @@ import { LoaderFunctionArgs, RouteObject } from 'react-router-dom';
 
 interface IMetadata {
     title: string;
-    description: string;
+    description?: string;
 }
 interface ISearchValues {
     name: string;
