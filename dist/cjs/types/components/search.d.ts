@@ -1,20 +1,27 @@
 import React, { FunctionComponent, ReactElement } from 'react';
-import { LoaderFunctionArgs } from 'react-router-dom';
-import { ISendCandidate, ISearchObject } from '../misc/interfaces';
+import { FacetEvent, RegisterFacet, UnregisterFacet, SearchValues } from '../hooks/useSearch.js';
+export interface FacetsParams {
+    registerFacet: RegisterFacet;
+    unregisterFacet: UnregisterFacet;
+    setFacet: FacetEvent;
+    searchValues: SearchValues[];
+}
+export declare enum SearchParams {
+    CODE = 0,
+    PARAMS = 1
+}
 export interface SearchProps<R> {
-    title: string;
-    noIndexPage?: boolean;
+    title?: string;
+    pageLength: number;
+    hasIndexPage?: boolean;
     withPaging?: boolean;
-    resultItemComponent: FunctionComponent<{
+    updateDocumentTitle?: boolean;
+    showSearchHeader?: boolean;
+    searchParams?: SearchParams;
+    ResultItemComponent: FunctionComponent<{
         item: R;
     }>;
-    facetsComponent: FunctionComponent<{
-        sendCandidateHandler: ISendCandidate;
-    }>;
+    FacetsComponent: FunctionComponent<FacetsParams>;
     headersElement?: ReactElement;
 }
-export declare function createSearchLoader(searchUrl: string, pageLength?: number, sortOrder?: string): ({ params }: LoaderFunctionArgs) => Promise<{
-    searchStruc: ISearchObject;
-    result: any;
-}>;
-export default function Search<R>(props: SearchProps<R>): React.JSX.Element;
+export default function Search<R>({ title, pageLength, hasIndexPage, withPaging, updateDocumentTitle, showSearchHeader, searchParams, ResultItemComponent, FacetsComponent, headersElement }: SearchProps<R>): React.JSX.Element;

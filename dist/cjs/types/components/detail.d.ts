@@ -1,10 +1,9 @@
 import React, { FunctionComponent } from 'react';
-import { LoaderFunctionArgs } from 'react-router-dom';
 export interface DetailProps<D> {
-    title: string;
-    detailComponent: FunctionComponent<{
+    title?: string;
+    updateDocumentTitle?: boolean;
+    DetailComponent: FunctionComponent<{
         data: D;
     }>;
 }
-export declare const createDetailLoader: (getFetchUrl: (id: string) => string) => ({ params }: LoaderFunctionArgs) => Promise<Response>;
-export default function Detail<D>(props: DetailProps<D>): React.JSX.Element;
+export default function Detail<D>({ title, updateDocumentTitle, DetailComponent }: DetailProps<D>): React.JSX.Element;

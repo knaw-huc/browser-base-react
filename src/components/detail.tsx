@@ -1,20 +1,19 @@
 import React, {FunctionComponent} from 'react';
-import {LoaderFunctionArgs, useLoaderData, useNavigation} from 'react-router-dom';
+import {useLoaderData, useNavigation} from 'react-router-dom';
 
 export interface DetailProps<D> {
-    title: string;
-    detailComponent: FunctionComponent<{ data: D }>;
+    title?: string;
+    updateDocumentTitle?: boolean;
+    DetailComponent: FunctionComponent<{ data: D }>;
 }
 
-export const createDetailLoader = (getFetchUrl: (id: string) => string) =>
-    async ({params}: LoaderFunctionArgs) =>
-        fetch(getFetchUrl(params.id as string));
-
-export default function Detail<D>(props: DetailProps<D>) {
+export default function Detail<D>({title, updateDocumentTitle = true, DetailComponent}: DetailProps<D>) {
     const navigation = useNavigation();
     const data = useLoaderData() as D;
 
-    document.title = `Item | ${props.title}`;
+    if (updateDocumentTitle) {
+        document.title = title ? `Item | ${title}` : 'Item';
+    }
 
     if (navigation.state === 'loading') {
         return (
@@ -24,5 +23,5 @@ export default function Detail<D>(props: DetailProps<D>) {
         );
     }
 
-    return <props.detailComponent data={data}/>;
+    return <DetailComponent data={data}/>;
 }
