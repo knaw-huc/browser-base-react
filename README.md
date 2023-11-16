@@ -39,6 +39,8 @@ function MyFacets(params) {
         <FreeTextFacet add={params.sendCandidateHandler}/>
         <ListFacet parentCallback={params.sendCandidateHandler}
                    name="Title" field="title" url="http://localhost:5000/facet"/>
+        <FilteredListFacet parentCallback={params.sendCandidateHandler}
+                   name="Author" field="author" url="http://localhost:5000/filtered-facet"/>
     </>;
 }
 ```
@@ -95,6 +97,10 @@ function MyFacets(params) {
         <FreeTextFacet add={params.sendCandidateHandler}/>
         <ListFacet parentCallback={params.sendCandidateHandler}
                    name="Title" field="title" url="http://localhost:5000/facet"/>
+        <FilteredListFacet parentCallback={params.sendCandidateHandler}
+                           name="Author" field="author" url="http://localhost:5000/filtered-facet"/>
+        <ListFacet parentCallback={params.sendCandidateHandler}
+                   name="Has a car (Yes/No)" field="has_car" url="http://localhost:5000/facet" flex={false}/>
     </>;
 }
 ```
@@ -121,3 +127,16 @@ A component `ListFacet` to render a list of possible values to filter on which a
 | `name`           | `string`         | ✓        | To (human readable) name of the facet                  |
 | `field`          | `string`         | ✓        | To (technical) field of the facet                      |
 | `url`            | `string`         | ✓        | The URL to obtain the possible values from             |
+| `flex`           | `boolean`        |          | Possibility to change list size (default = true)       |
+
+#### Filtered list facet
+
+A component `FiteredListFacet` like the `ListFacet`, but with a text field to narrow down the amount of list items
+
+| Parameter        | Value type       | Required |                                                        |
+|------------------|------------------|----------|--------------------------------------------------------|
+| `parentCallback` | `ISendCandidate` | ✓        | To propagate the given `sendCandidateHandler` function |     
+| `name`           | `string`         | ✓        | To (human readable) name of the facet                  |
+| `field`          | `string`         | ✓        | To (technical) field of the facet                      |
+| `url`            | `string`         | ✓        | The URL to obtain the possible values from             |
+

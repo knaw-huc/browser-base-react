@@ -5,4 +5,5 @@ export default function ListFacet(props: {
     name: string;
     field: string;
     url: string;
+    flex: true;
 }): React.JSX.Element;

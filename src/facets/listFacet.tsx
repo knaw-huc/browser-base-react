@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {IFacetValue, ISendCandidate} from '../misc/interfaces';
 
-export default function ListFacet(props: { parentCallback: ISendCandidate, name: string, field: string, url: string }) {
+export default function ListFacet(props: { parentCallback: ISendCandidate, name: string, field: string, url: string, flex: true }) {
     const [data, setData] = useState<IFacetValue[]>([]);
     const [url, setUrl] = useState(props.url + '?name=' + props.field + '&amount=10');
     const [loading, setLoading] = useState(true);
@@ -50,9 +50,9 @@ export default function ListFacet(props: { parentCallback: ISendCandidate, name:
                                 <div className="checkBoxLabel"> {item.key} ({item.doc_count})</div>
                             </div>)
                         )}
-                        <div className="hcClickable" onClick={changeListLength}>
+                        {props.flex && (<div className="hcClickable" onClick={changeListLength}>
                             {more ? (<div>More...</div>) : (<div>Less...</div>)}
-                        </div>
+                        </div>)}
                     </div>) : (<div>Loading...</div>)}
                 </div>
             }
