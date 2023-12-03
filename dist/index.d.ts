@@ -66,7 +66,14 @@ declare function ListFacet(props: {
     name: string;
     field: string;
     url: string;
-    flex: true;
+    flex: boolean;
+}): React.JSX.Element;
+
+declare function FilteredListFacet(props: {
+    parentCallback: ISendCandidate;
+    name: string;
+    field: string;
+    url: string;
 }): React.JSX.Element;
 
 interface BrowserBaseProps<D, R> extends IMetadata, DetailProps<D>, SearchProps<R> {
@@ -84,4 +91,4 @@ interface BrowserBaseProps<D, R> extends IMetadata, DetailProps<D>, SearchProps<
 }
 declare function BrowserBase<D, R>(props: BrowserBaseProps<D, R>): React.JSX.Element;
 
-export { BrowserBase, BrowserBaseProps, Detail, DetailProps, FreeTextFacet, ISendCandidate, ListFacet, Search, SearchProps, createDetailLoader, createSearchLoader };
+export { BrowserBase, BrowserBaseProps, Detail, DetailProps, FilteredListFacet, FreeTextFacet, ISendCandidate, ListFacet, Search, SearchProps, createDetailLoader, createSearchLoader };

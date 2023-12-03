@@ -4,6 +4,7 @@ import Search, { createSearchLoader, SearchProps } from './components/search.js'
 import Detail, { createDetailLoader, DetailProps } from './components/detail.js';
 import FreeTextFacet from './facets/freeTextFacet.js';
 import ListFacet from './facets/listFacet.js';
+import FilteredListFacet from "./facets/filteredListFacet.js";
 import { IMetadata, ISendCandidate } from './misc/interfaces.js';
 import './index.css';
 interface BrowserBaseProps<D, R> extends IMetadata, DetailProps<D>, SearchProps<R> {
@@ -20,4 +21,4 @@ interface BrowserBaseProps<D, R> extends IMetadata, DetailProps<D>, SearchProps<
     getFetchUrl: (id: string) => string;
 }
 declare function BrowserBase<D, R>(props: BrowserBaseProps<D, R>): React.JSX.Element;
-export { BrowserBase, BrowserBaseProps, Search, SearchProps, createSearchLoader, Detail, DetailProps, createDetailLoader, ISendCandidate, FreeTextFacet, ListFacet };
+export { BrowserBase, BrowserBaseProps, Search, SearchProps, createSearchLoader, Detail, DetailProps, createDetailLoader, ISendCandidate, FreeTextFacet, ListFacet, FilteredListFacet };

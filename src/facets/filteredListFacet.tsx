@@ -1,9 +1,7 @@
-import React from "react";
-import {useState, useEffect} from "react";
+import React, {useState, useEffect} from "react";
 import {IFacetValue, ISendCandidate} from "../misc/interfaces";
 
-
-function FilteredListFacet(props: { parentCallback: ISendCandidate, name: string, field: string, url: string }) {
+export default function FilteredListFacet(props: { parentCallback: ISendCandidate, name: string, field: string, url: string }) {
 
     const [more, setMore] = useState(true);
     const [filter, setFilter] = useState("");
@@ -56,5 +54,3 @@ function FilteredListFacet(props: { parentCallback: ISendCandidate, name: string
         </div>
     );
 }
-
-export default FilteredListFacet;

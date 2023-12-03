@@ -6,6 +6,7 @@ import Detail, {createDetailLoader, DetailProps} from './components/detail.js';
 
 import FreeTextFacet from './facets/freeTextFacet.js';
 import ListFacet from './facets/listFacet.js';
+import FilteredListFacet from "./facets/filteredListFacet.js";
 
 import PageHeader from './pageElements/pageHeader.js';
 import {IMetadata, ISendCandidate} from './misc/interfaces.js';
@@ -95,5 +96,6 @@ export {
     BrowserBase, BrowserBaseProps,
     Search, SearchProps, createSearchLoader,
     Detail, DetailProps, createDetailLoader,
-    ISendCandidate, FreeTextFacet, ListFacet
+    ISendCandidate, FreeTextFacet, ListFacet,
+    FilteredListFacet
 }

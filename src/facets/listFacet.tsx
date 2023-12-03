@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {IFacetValue, ISendCandidate} from '../misc/interfaces';
 
-export default function ListFacet(props: { parentCallback: ISendCandidate, name: string, field: string, url: string, flex: true }) {
+export default function ListFacet(props: { parentCallback: ISendCandidate, name: string, field: string, url: string, flex: boolean }) {
     const [data, setData] = useState<IFacetValue[]>([]);
     const [url, setUrl] = useState(props.url + '?name=' + props.field + '&amount=10');
     const [loading, setLoading] = useState(true);
