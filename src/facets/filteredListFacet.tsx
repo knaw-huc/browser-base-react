@@ -2,11 +2,10 @@ import React, {useState, useEffect} from "react";
 import {IFacetValue, ISendCandidate} from "../misc/interfaces";
 
 export default function FilteredListFacet(props: { parentCallback: ISendCandidate, name: string, field: string, url: string }) {
-
     const [more, setMore] = useState(true);
     const [filter, setFilter] = useState("");
     const [data, setData] = useState<IFacetValue[]>([]);
-    const [url, setUrl] = useState(props.url + "?name=" + props.field + "&amount=10&filter=" + filter);
+    const [url, setUrl] = useState(props.url + "?name=" + props.field + "&amount=10&filter=");
     const [loading, setLoading] = useState(true);
     const [hidden, setHidden] = useState(false);
     const [refresh, setRefresh] = useState(true);
@@ -22,11 +21,11 @@ export default function FilteredListFacet(props: { parentCallback: ISendCandidat
 
 
     function handleChange(e: React.FormEvent<HTMLInputElement>) {
-        //if (e.currentTarget.value.length > 1)
-        //{
-        setFilter(e.currentTarget.value);
-        setRefresh(!refresh)
-        //}
+        if (e.currentTarget.value.length > 1)
+        {
+            console.log(e.currentTarget.value);
+            setUrl(props.url + "?name=" + props.field + "&amount=10&filter=" + e.currentTarget.value);
+        }
     }
 
     function sendCandidate(value: string) {
@@ -35,7 +34,7 @@ export default function FilteredListFacet(props: { parentCallback: ISendCandidat
 
     useEffect(() => {
         fetchData();
-    }, [refresh]);
+    }, [url]);
 
     return (
         <div className="hcFacet">
