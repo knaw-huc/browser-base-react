@@ -23,7 +23,6 @@ export default function FilteredListFacet(props: { parentCallback: ISendCandidat
     function handleChange(e: React.FormEvent<HTMLInputElement>) {
         if (e.currentTarget.value.length > 1)
         {
-            console.log(e.currentTarget.value);
             setUrl(props.url + "?name=" + props.field + "&amount=10&filter=" + e.currentTarget.value);
         }
     }
