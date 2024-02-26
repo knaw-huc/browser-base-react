@@ -7,7 +7,7 @@ export default function FilteredListFacet(props: { parentCallback: ISendCandidat
     const [data, setData] = useState<IFacetValue[]>([]);
     const [url, setUrl] = useState(props.url + "?name=" + props.field + "&amount=10&filter=");
     const [loading, setLoading] = useState(true);
-    const [hidden, setHidden] = useState(false);
+    const [hidden, setHidden] = useState(true);
     const [refresh, setRefresh] = useState(true);
 
 
@@ -37,10 +37,13 @@ export default function FilteredListFacet(props: { parentCallback: ISendCandidat
 
     return (
         <div className="hcFacet">
-            <div className="hcFacetTitle">
+            <div className="hcFacetTitle" onClick={() => setHidden(!hidden)}>
                 <span>{props.name}</span>
+                <span className="hcIconHelp">
+                    {hidden ? '+' : '-'}
+                </span>
             </div>
-
+            {!hidden && <div>
             <div className="hcFacetFilter"><input type="text" name="place" onChange={handleChange} id="place" placeholder="Type to filter"/></div>
             {!loading ? (<div className="hcFacetItems">
                     {data.map((item, index) => {
@@ -49,6 +52,7 @@ export default function FilteredListFacet(props: { parentCallback: ISendCandidat
 
                 </div>) :
                 (<div className="hcFacetLoading">Loading...</div>)}
+            </div>}
         </div>
     );
 }
