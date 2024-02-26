@@ -55,7 +55,13 @@ function BrowserBase<D, R>(props: BrowserBaseProps<D, R>) {
                     ? searchElement
                     : props.rootElement || <Home title={props.title} description={props.description}/>,
 
-            }, {
+            },
+            {
+                path: 'search/',
+                loader: searchLoader,
+                element: searchElement
+            },
+            {
                 path: props.noIndexPage ? ':code' : 'search/:code',
                 loader: searchLoader,
                 element: searchElement
