@@ -3,7 +3,7 @@
 Set up a search/browser interface using React (and React Router). Requires React 18 and optionally React Router 6.4.
 
 Install the package using:
-`npm install knaw-huc/browser-base-react`
+`npm install @knaw-huc/browser-base-react`
 
 Build the package using:
 `npm run build`
