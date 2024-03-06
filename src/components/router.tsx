@@ -8,7 +8,7 @@ import {
     ScrollRestoration
 } from 'react-router-dom';
 import App from './app.js';
-import PageHeader from './pageHeader.js';
+import PageHeader, {PageHeaderProps} from './pageHeader.js';
 import Home, {HomeProps} from './home.js';
 import Search, {SearchParams, SearchProps} from './search.js';
 import Detail, {DetailProps} from './detail.js';
@@ -16,7 +16,7 @@ import createSearchLoader from '../loaders/searchLoader.js';
 import {getSearchObjectFromCode, getSearchObjectFromParams} from '../misc/search.js';
 import './router.css';
 
-export interface RouterProps<D, R> extends HomeProps, DetailProps<D>, SearchProps<R> {
+export interface RouterProps<D, R> extends PageHeaderProps, HomeProps, DetailProps<D>, SearchProps<R> {
     title: string;
     AppComponent?: FunctionComponent<{ children: ReactElement | ReactElement[] }>;
     headerElement?: ReactElement;
@@ -35,7 +35,8 @@ export default function Router<D, R>(props: RouterProps<D, R>) {
             <Outlet/>
         </props.AppComponent>
     ) : (
-        <App header={props.headerElement || <PageHeader title={props.title}/>} footer={props.footerElement}/>
+        <App header={props.headerElement ||
+            <PageHeader title={props.title} logo={props.logo} items={props.items}/>} footer={props.footerElement}/>
     );
 
     let searchLoader, searchPath;
