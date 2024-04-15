@@ -261,17 +261,18 @@ A component `FreeTextFacet` to allow for free text searching which accepts the p
 
 A component `ListFacet` to render a list of possible values to filter on which accepts the parameters:
 
-| Parameter         | Value type                                                            | Required |                                                                                                                 |
-|-------------------|-----------------------------------------------------------------------|----------|-----------------------------------------------------------------------------------------------------------------|
-| `registerFacet`   | `(field: string, label: string) => void`                              | ✓        | To register the facet with a label                                                                              |
-| `unregisterFacet` | `(field: string) => void`                                             | ✓        | To unregister the facet                                                                                         |
-| `setFacet`        | `(field: string, value: string) => void`                              | ✓        | To call whenever a facet is added by the user                                                                   |
-| `name`            | `string`                                                              | ✓        | The label of the facet                                                                                          |
-| `field`           | `string`                                                              | ✓        | The field of the facet                                                                                          |
-| `url`             | `string`                                                              | ✓        | The URL to obtain the facet values from                                                                         |
-| `searchValues`    | <pre>{<br>&emsp;field: string,<br>&emsp;values: string[]<br>}[]</pre> |          | The search values selected by the user (optional)                                                               |
-| `usePost`         | `boolean`                                                             |          | Whether to do a POST call to obtain the values; is required for the use of `searchValues` (defaults to `false`) |
-| `flex`            | `boolean`                                                             |          | Whether to show a toggle for more/less values (defaults to `true`)                                              |
+| Parameter          | Value type                                                            | Required |                                                                                                                 |
+|--------------------|-----------------------------------------------------------------------|----------|-----------------------------------------------------------------------------------------------------------------|
+| `registerFacet`    | `(field: string, label: string) => void`                              | ✓        | To register the facet with a label                                                                              |
+| `unregisterFacet`  | `(field: string) => void`                                             | ✓        | To unregister the facet                                                                                         |
+| `setFacet`         | `(field: string, value: string) => void`                              | ✓        | To call whenever a facet is added by the user                                                                   |
+| `name`             | `string`                                                              | ✓        | The label of the facet                                                                                          |
+| `field`            | `string`                                                              | ✓        | The field of the facet                                                                                          |
+| `url`              | `string`                                                              | ✓        | The URL to obtain the facet values from                                                                         |
+| `searchValues`     | <pre>{<br>&emsp;field: string,<br>&emsp;values: string[]<br>}[]</pre> |          | The search values selected by the user (optional)                                                               |
+| `usePost`          | `boolean`                                                             |          | Whether to do a POST call to obtain the values; is required for the use of `searchValues` (defaults to `false`) |
+| `flex`             | `boolean`                                                             |          | Whether to show a toggle for more/less values (defaults to `true`)                                              |
+| `addFilter`        | `boolean`                                                             |          | Whether to add a filter field to filter the facet values (defaults to `false`)                                  |
 
 ## Utilities
 

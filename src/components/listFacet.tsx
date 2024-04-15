@@ -12,6 +12,7 @@ interface ListFacetParams {
     searchValues: SearchValues[];
     usePost?: boolean;
     flex?: boolean;
+    addFilter?: boolean;
 }
 
 export default function ListFacet({
@@ -23,11 +24,12 @@ export default function ListFacet({
                                       url,
                                       searchValues,
                                       usePost = false,
-                                      flex = true
+                                      flex = true,
+                                      addFilter = false
                                   }: ListFacetParams) {
     const [
         data, loading, hidden, setHidden,
-        more, changeListLength, sendCandidate
+        more, changeListLength, sendCandidate, handleChange
     ] = useListFacet(name, field, url, registerFacet, unregisterFacet, setFacet, searchValues, usePost);
 
     return (
@@ -40,7 +42,11 @@ export default function ListFacet({
                 </span>
             </div>
 
-            {!hidden &&
+            {!hidden && <>
+                {addFilter && <div className="hcFacetFilter">
+                    <input type="text" placeholder="Type to filter" onChange={handleChange}/>
+                </div>}
+
                 <div className="hcFacetItems">
                     {!loading ? (<div>
                         {data.map((item, index) => (
@@ -54,7 +60,7 @@ export default function ListFacet({
                         </div>)}
                     </div>) : (<div>Loading...</div>)}
                 </div>
-            }
+            </>}
         </div>
     );
 }
