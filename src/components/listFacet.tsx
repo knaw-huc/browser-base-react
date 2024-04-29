@@ -1,13 +1,9 @@
 import React from 'react';
+import Facet, {FacetParams} from './facet.js';
 import useListFacet from '../hooks/useListFacet.js';
-import {FacetEvent, RegisterFacet, SearchValues, UnregisterFacet} from '../hooks/useSearch.js';
+import {SearchValues} from '../hooks/useSearch.js';
 
-interface ListFacetParams {
-    registerFacet: RegisterFacet;
-    unregisterFacet: UnregisterFacet;
-    setFacet: FacetEvent;
-    name: string;
-    field: string;
+interface ListFacetParams extends FacetParams {
     url: string;
     searchValues: SearchValues[];
     usePost?: boolean;
@@ -33,34 +29,24 @@ export default function ListFacet({
     ] = useListFacet(name, field, url, registerFacet, unregisterFacet, setFacet, searchValues, usePost);
 
     return (
-        <div className="hcFacet">
-            <div className="hcFacetTitle" onClick={() => setHidden(!hidden)}>
-                <span>{name}</span>
+        <Facet name={name} hidden={hidden} setHidden={setHidden}>
+            {addFilter && <div className="hcFacetFilter">
+                <input type="text" placeholder="Type to filter" onChange={handleChange}/>
+            </div>}
 
-                <span className="hcIconHelp">
-                    {hidden ? '+' : '-'}
-                </span>
+            <div className="hcFacetItems">
+                {!loading ? (<div>
+                    {data.map((item, index) => (
+                        <div key={index} className="hcFacetItem" onClick={() => sendCandidate(item.key)}>
+                            <div className="checkBoxLabel"> {item.key} ({item.doc_count})</div>
+                        </div>)
+                    )}
+
+                    {flex && (<div className="hcClickable" onClick={changeListLength}>
+                        {more ? (<div>More...</div>) : (<div>Less...</div>)}
+                    </div>)}
+                </div>) : (<div>Loading...</div>)}
             </div>
-
-            {!hidden && <>
-                {addFilter && <div className="hcFacetFilter">
-                    <input type="text" placeholder="Type to filter" onChange={handleChange}/>
-                </div>}
-
-                <div className="hcFacetItems">
-                    {!loading ? (<div>
-                        {data.map((item, index) => (
-                            <div key={index} className="hcFacetItem" onClick={() => sendCandidate(item.key)}>
-                                <div className="checkBoxLabel"> {item.key} ({item.doc_count})</div>
-                            </div>)
-                        )}
-
-                        {flex && (<div className="hcClickable" onClick={changeListLength}>
-                            {more ? (<div>More...</div>) : (<div>Less...</div>)}
-                        </div>)}
-                    </div>) : (<div>Loading...</div>)}
-                </div>
-            </>}
-        </div>
+        </Facet>
     );
 }

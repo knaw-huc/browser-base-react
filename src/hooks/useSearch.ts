@@ -28,7 +28,7 @@ export interface LabeledSearchValues extends SearchValues {
     label: string;
 }
 
-export type FacetEvent = (field: string, value: string) => void;
+export type FacetEvent = (field: string, value: string, replace?: boolean) => void;
 
 export interface SearchObject {
     searchvalues: SearchValues[];
@@ -96,14 +96,19 @@ export default function useSearch(searchValues: SearchValues[], page: number, on
         onSearch(newSearchValues, 1);
     }
 
-    function setFacet(field: string, value: string): void {
+    function setFacet(field: string, value: string, replace: boolean = false): void {
         let newSearchValues = [{field, values: [value]}];
 
         if (searchValues.length > 0) {
             newSearchValues = searchValues.reduce<SearchValues[]>((acc, item) => {
                 let values = item.values;
-                if (item.field === field && !values.includes(value)) {
-                    values.push(value);
+                if (item.field === field) {
+                    if (!replace && !values.includes(value)) {
+                        values.push(value);
+                    }
+                    else if (replace) {
+                        values = [value];
+                    }
                 }
                 if (values.length > 0) {
                     acc.push({field: item.field, values});

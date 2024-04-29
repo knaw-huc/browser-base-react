@@ -1,16 +1,18 @@
-import React, {useEffect, useState} from 'react';
+import {useState, FormEvent, KeyboardEvent} from 'react';
 import {FacetEvent, RegisterFacet, UnregisterFacet} from './useSearch.js';
+import useFacet from './useFacet.js';
 
 type FreeTextFacet = [
     string,
     () => void,
-    (e: React.FormEvent<HTMLInputElement>) => void,
-    (e: React.KeyboardEvent<HTMLInputElement>) => void
+    (e: FormEvent<HTMLInputElement>) => void,
+    (e: KeyboardEvent<HTMLInputElement>) => void
 ];
 
 export default function useFreeTextFacet(registerFacet: RegisterFacet, unregisterFacet: UnregisterFacet,
                                          setFacet: FacetEvent,
                                          label: string = 'Free text', field: string = 'FREE_TEXT'): FreeTextFacet {
+    useFacet(registerFacet, unregisterFacet, label, field);
     const [textField, setTextField] = useState('');
 
     function handleChange(e: React.FormEvent<HTMLInputElement>): void {
@@ -29,11 +31,6 @@ export default function useFreeTextFacet(registerFacet: RegisterFacet, unregiste
             setTextField('');
         }
     }
-
-    useEffect(() => {
-        registerFacet(field, label);
-        return () => unregisterFacet(field);
-    }, [field]);
 
     return [textField, setTextFacet, handleChange, handleKeyPress];
 };

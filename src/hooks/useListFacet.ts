@@ -1,5 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState, FormEvent} from 'react';
 import {FacetEvent, RegisterFacet, UnregisterFacet, SearchValues} from './useSearch.js';
+import useFacet from './useFacet.js';
 
 interface FacetValue {
     key: string,
@@ -14,19 +15,19 @@ type ListFacet = [
     boolean,
     () => void,
     (value: string) => void,
-    (e: React.FormEvent<HTMLInputElement>) => void
+    (e: FormEvent<HTMLInputElement>) => void
 ];
 
 export default function useListFacet(label: string, field: string, url: string,
                                      registerFacet: RegisterFacet, unregisterFacet: UnregisterFacet,
                                      setFacet: FacetEvent, searchValues?: SearchValues[], usePost: boolean = false,
                                      startAmount: number = 10, moreAmount: number = 500): ListFacet {
+    const [hidden, setHidden] = useFacet(registerFacet, unregisterFacet, label, field);
     const [data, setData] = useState<FacetValue[]>([]);
     const [filter, setFilter] = useState('');
     const [amount, setAmount] = useState(10);
     const [loading, setLoading] = useState(true);
     const [more, setMore] = useState(true);
-    const [hidden, setHidden] = useState(true);
 
     const doGet = async () => fetch(`${url}?name=${field}&amount=${amount}&filter=${filter}`);
     const doPost = async () => fetch(url, {
@@ -65,11 +66,6 @@ export default function useListFacet(label: string, field: string, url: string,
         setMore(!more);
         setAmount(more ? moreAmount : startAmount);
     }
-
-    useEffect(() => {
-        registerFacet(field, label);
-        return () => unregisterFacet(field);
-    }, [field]);
 
     useEffect(() => {
         fetchData();
