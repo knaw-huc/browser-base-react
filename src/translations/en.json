@@ -1,0 +1,18 @@
+{
+  "loading": "Loading",
+  "textSearchExplained": "Press ENTER to search",
+  "search": "Search",
+  "browse": "Browse",
+  "resultsPaged": "{{amount}} results found, page {{page}} of {{pages}}",
+  "results": "{{amount}} results found",
+  "selectedFacets": "Selected facets:",
+  "resetFacets": "Reset facets",
+  "none": "None",
+  "previous": "Previous",
+  "next": "Next",
+  "select": "Select",
+  "typeToFilter": "Type to filter",
+  "more": "More",
+  "less": "Less",
+  "textSearch": "Text search"
+}

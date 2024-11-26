@@ -2,6 +2,7 @@ import React from 'react';
 import Facet, {FacetParams} from './facet.js';
 import useListFacet from '../hooks/useListFacet.js';
 import {SearchValues} from '../hooks/useSearch.js';
+import {useTranslation} from "react-i18next";
 
 interface ListFacetParams extends FacetParams {
     url: string;
@@ -28,10 +29,12 @@ export default function ListFacet({
         more, changeListLength, sendCandidate, handleChange
     ] = useListFacet(name, field, url, registerFacet, unregisterFacet, setFacet, searchValues, usePost);
 
+    const {t} = useTranslation();
+
     return (
         <Facet name={name} hidden={hidden} setHidden={setHidden}>
             {addFilter && <div className="hcFacetFilter">
-                <input type="text" placeholder="Type to filter" onChange={handleChange}/>
+                <input type="text" placeholder={t('browser-base:typeToFilter')} onChange={handleChange}/>
             </div>}
 
             <div className="hcFacetItems">
@@ -43,9 +46,9 @@ export default function ListFacet({
                     )}
 
                     {flex && (<div className="hcClickable" onClick={changeListLength}>
-                        {more ? (<div>More...</div>) : (<div>Less...</div>)}
+                        {more ? (<div>{t('browser-base:more')}...</div>) : (<div>{t('browser-base:less')}...</div>)}
                     </div>)}
-                </div>) : (<div>Loading...</div>)}
+                </div>) : (<div>{t('browser-base:loading')}...</div>)}
             </div>
         </Facet>
     );

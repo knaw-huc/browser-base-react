@@ -10,6 +10,7 @@ import useSearch, {
 } from '../hooks/useSearch.js';
 import {getPages} from '../misc/paging.js';
 import {createCodeFromSearchObject, createParamsFromSearchObject} from '../misc/search.js';
+import {useTranslation} from "react-i18next";
 
 interface ResultList<R> {
     amount: number;
@@ -137,13 +138,16 @@ interface AmountAndPagesParams {
 }
 
 function AmountAndPages({withPaging, amount, page, pages}: AmountAndPagesParams) {
+    const {t} = useTranslation();
+
     return (
         <div className="hcResultsHeader hcMarginBottom1">
             {withPaging
                 ? amount > 9999
-                    ? <div>{amount}+ results, page {page} of {pages} pages</div>
-                    : <div>{amount} results, page {page} of {pages} pages</div>
-                : <div>{amount} items found</div>}
+                    // ? <div>{amount}+ results, page {page} of {pages} pages</div>
+                    ? <div>{t('browser-base:resultsPaged', {amount: '10000+', page: page, pages: pages})}</div>
+                    : <div>{t('browser-base:resultsPaged', {amount: amount, page: page, pages: pages})}</div>
+                : <div>{t('browser-base:results', {amount: amount})}</div>}
         </div>
     );
 }
@@ -155,15 +159,17 @@ interface SelectedFacetsParams {
 }
 
 function SelectedFacets({labeledSearchValues, resetFacets, removeFacet}: SelectedFacetsParams) {
+    const {t} = useTranslation();
+
     return (
         <div className="hcMarginBottom2">
-            <div className="hcSmallTxt hcTxtColorGreyMid">Selected facets:
-                <span className="hcFacetReset hcClickable" onClick={resetFacets}>Reset facets</span>
+            <div className="hcSmallTxt hcTxtColorGreyMid">{t('browser-base:selectedFacets')}
+                <span className="hcFacetReset hcClickable" onClick={resetFacets}>{t('browser-base:resetFacets')}</span>
             </div>
 
             {labeledSearchValues.length === 0 ? (
                 <span className="hcSelectedFacet">
-                    <span className="hcSelectedFacetType">None</span>
+                    <span className="hcSelectedFacetType">{t('browser-base:none')}</span>
                 </span>
             ) : (
                 labeledSearchValues.map((item: LabeledSearchValues) => (
@@ -190,9 +196,11 @@ interface PagingParams {
 }
 
 function Paging({page, pages, prevPage, nextPage, selectPage}: PagingParams) {
+    const {t} = useTranslation();
+
     return (
         <div className="hcPagination">
-            {page > 1 && <div className="hcClickable" onClick={prevPage}>&#8592; Previous</div>}
+            {page > 1 && <div className="hcClickable" onClick={prevPage}>&#8592; {t('browser-base:previous')}</div>}
 
             <div className="hcClickable">
                 <select className="hcPageSelector" value={page}
@@ -202,7 +210,7 @@ function Paging({page, pages, prevPage, nextPage, selectPage}: PagingParams) {
                 </select>
             </div>
 
-            {page < pages && <div className="hcClickable" onClick={nextPage}>Next &#8594;</div>}
+            {page < pages && <div className="hcClickable" onClick={nextPage}>{t('browser-base:next')} &#8594;</div>}
         </div>
     );
 }

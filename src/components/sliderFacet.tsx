@@ -3,6 +3,7 @@ import {Root, Track, Range, Thumb} from '@radix-ui/react-slider';
 import Facet, {FacetParams} from './facet.js';
 import useSliderFacet from '../hooks/useSliderFacet.js';
 import './sliderFacet.css';
+import {useTranslation} from "react-i18next";
 
 interface SliderFacetParams extends FacetParams {
     min: number;
@@ -20,6 +21,8 @@ export default function SliderFacet({
                                     }: SliderFacetParams) {
     const [from, to, hidden, setHidden, handleChange, sendSelect] =
         useSliderFacet(name, field, registerFacet, unregisterFacet, setFacet, min, max);
+
+    const {t} = useTranslation();
 
     return (
         <Facet name={name} hidden={hidden} setHidden={setHidden}>
@@ -40,7 +43,7 @@ export default function SliderFacet({
             </Root>
 
             <div className="sliderSelect">
-                <button className="sliderSelectBtn" onClick={sendSelect}>Select</button>
+                <button className="sliderSelectBtn" onClick={sendSelect}>{t('browser-base:select')}</button>
                 [{from} - {to}]
             </div>
         </Facet>

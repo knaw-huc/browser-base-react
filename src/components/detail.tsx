@@ -1,5 +1,6 @@
 import React, {FunctionComponent} from 'react';
 import {useLoaderData, useNavigation} from 'react-router-dom';
+import {useTranslation} from "react-i18next";
 
 export interface DetailProps<D> {
     title?: string;
@@ -10,6 +11,7 @@ export interface DetailProps<D> {
 export default function Detail<D>({title, updateDocumentTitle = true, DetailComponent}: DetailProps<D>) {
     const navigation = useNavigation();
     const data = useLoaderData() as D;
+    const {t, i18n} = useTranslation();
 
     if (updateDocumentTitle) {
         document.title = title ? `Item | ${title}` : 'Item';
@@ -18,7 +20,7 @@ export default function Detail<D>({title, updateDocumentTitle = true, DetailComp
     if (navigation.state === 'loading') {
         return (
             <div className="hcContentContainer">
-                <div>Loading</div>
+                <div>{t('browser-base:loading')}</div>
             </div>
         );
     }

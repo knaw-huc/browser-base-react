@@ -26,6 +26,7 @@ import Router from './components/router.js';
 import * as base64 from './misc/base64.js';
 import * as pagingUtils from './misc/paging.js';
 import * as searchUtils from './misc/search.js';
+import {init as initBrowserBase} from "./translations/translations";
 
 export {
     useSearch, useFreeTextFacet, useListFacet, useSliderFacet,
@@ -33,5 +34,5 @@ export {
     App, Home, PageHeader, Search, Detail, FreeTextFacet, ListFacet, SliderFacet, Router,
     base64, pagingUtils, searchUtils,
     LabeledSearchValues, SearchValues, RegisterFacet, UnregisterFacet, FacetEvent, SearchObject,
-    SearchParams, FacetsParams
+    SearchParams, FacetsParams, initBrowserBase
 };

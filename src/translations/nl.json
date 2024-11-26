@@ -1,0 +1,18 @@
+{
+  "loading": "Laden",
+  "textSearchExplained": "Druk op ENTER om te zoeken",
+  "search": "Zoek",
+  "browse": "Zoeken",
+  "resultsPaged": "{{amount}} resultaten gevonden, pagina {{page}} van {{pages}}",
+  "results": "{{amount}} resultaten gevonden",
+  "selectedFacets": "Geselecteerde facetten:",
+  "resetFacets": "Wis facetten",
+  "none": "Geen",
+  "previous": "Vorige",
+  "next": "Volgende",
+  "select": "Selecteer",
+  "typeToFilter": "Typ om te filteren",
+  "more": "Meer",
+  "less": "Minder",
+  "textSearch": "Zoeken op tekst"
+}
