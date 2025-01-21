@@ -95,6 +95,7 @@ parameters:
 | `usePost`         | `boolean`                                                             | Whether to do a POST call to obtain the values; is required for the use of `searchValues` (defaults to `false`) |
 | `startAmount`     | `number`                                                              | The number of initial values to show (defaults to `10`)                                                         |
 | `moreAmount`      | `number`                                                              | The upper limit for all values to show (defaults to `500`)                                                      |
+| `isHidden`        | `boolean`                                                             | Whether to start the facet hidden? (defaults to `true`)                                                         |
 
 It returns an array with the following values/functions for user interaction:
 
@@ -114,16 +115,16 @@ It returns an array with the following values/functions for user interaction:
 The `useSliderFacet` hook is used to set up a facet with a slider. The hook is initialized with the following
 parameters:
 
-| Parameter         | Value type                               |                                               |
-|-------------------|------------------------------------------|-----------------------------------------------|
-| `label`           | `string`                                 | The label of the facet                        |
-| `field`           | `string`                                 | The field of the facet                        |
-| `registerFacet`   | `(field: string, label: string) => void` | To register the facet with a label            |
-| `unregisterFacet` | `(field: string) => void`                | To unregister the facet                       |
-| `setFacet`        | `(field: string, value: string) => void` | To call whenever a facet is added by the user |
-| `min`             | `number`                                 | The minimum allowed value                     |
-| `max`             | `number`                                 | The maximum allowed value                     |
-
+| Parameter         | Value type                               |                                                         |
+|-------------------|------------------------------------------|---------------------------------------------------------|
+| `label`           | `string`                                 | The label of the facet                                  |
+| `field`           | `string`                                 | The field of the facet                                  |
+| `registerFacet`   | `(field: string, label: string) => void` | To register the facet with a label                      |
+| `unregisterFacet` | `(field: string) => void`                | To unregister the facet                                 |
+| `setFacet`        | `(field: string, value: string) => void` | To call whenever a facet is added by the user           |
+| `min`             | `number`                                 | The minimum allowed value                               |
+| `max`             | `number`                                 | The maximum allowed value                               |
+| `isHidden`        | `boolean`                                | Whether to start the facet hidden? (defaults to `true`) |
 It returns an array with the following values/functions for user interaction:
 
 | Value          | Signature                            |                                                    |
@@ -301,21 +302,21 @@ A component `ListFacet` to render a list of possible values to filter on which a
 | `usePost`         | `boolean`                                                             |          | Whether to do a POST call to obtain the values; is required for the use of `searchValues` (defaults to `false`) |
 | `flex`            | `boolean`                                                             |          | Whether to show a toggle for more/less values (defaults to `true`)                                              |
 | `addFilter`       | `boolean`                                                             |          | Whether to add a filter field to filter the facet values (defaults to `false`)                                  |
-
+| `isHidden`        | `boolean`                                                             |          | Whether to start the facet hidden? (defaults to `true`)                                                         |
 #### Component `SliderFacet`
 
 A component `SliderFacet` to render a slider to filter on which accepts the parameters:
 
-| Parameter         | Value type                               | Required |                                               |
-|-------------------|------------------------------------------|----------|-----------------------------------------------|
-| `registerFacet`   | `(field: string, label: string) => void` | ✓        | To register the facet with a label            |
-| `unregisterFacet` | `(field: string) => void`                | ✓        | To unregister the facet                       |
-| `setFacet`        | `(field: string, value: string) => void` | ✓        | To call whenever a facet is added by the user |
-| `name`            | `string`                                 | ✓        | The label of the facet                        |
-| `field`           | `string`                                 | ✓        | The field of the facet                        |
-| `min`             | `number`                                 | ✓        | The minimum allowed value                     |
-| `max`             | `number`                                 | ✓        | The maximum allowed value                     |
-
+| Parameter         | Value type                               | Required |                                                         |
+|-------------------|------------------------------------------|----------|---------------------------------------------------------|
+| `registerFacet`   | `(field: string, label: string) => void` | ✓        | To register the facet with a label                      |
+| `unregisterFacet` | `(field: string) => void`                | ✓        | To unregister the facet                                 |
+| `setFacet`        | `(field: string, value: string) => void` | ✓        | To call whenever a facet is added by the user           |
+| `name`            | `string`                                 | ✓        | The label of the facet                                  |
+| `field`           | `string`                                 | ✓        | The field of the facet                                  |
+| `min`             | `number`                                 | ✓        | The minimum allowed value                               |
+| `max`             | `number`                                 | ✓        | The maximum allowed value                               |
+| `isHidden`        | `boolean`                                |          | Whether to start the facet hidden? (defaults to `true`) |
 ## Utilities
 
 ### Base64 utilities

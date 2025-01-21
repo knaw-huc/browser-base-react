@@ -9,6 +9,7 @@ interface ListFacetParams extends FacetParams {
     usePost?: boolean;
     flex?: boolean;
     addFilter?: boolean;
+    isHidden?: boolean;
 }
 
 export default function ListFacet({
@@ -21,12 +22,13 @@ export default function ListFacet({
                                       searchValues,
                                       usePost = false,
                                       flex = true,
-                                      addFilter = false
+                                      addFilter = false,
+                                      isHidden = true
                                   }: ListFacetParams) {
     const [
         data, loading, hidden, setHidden,
         more, changeListLength, sendCandidate, handleChange
-    ] = useListFacet(name, field, url, registerFacet, unregisterFacet, setFacet, searchValues, usePost);
+    ] = useListFacet(name, field, url, registerFacet, unregisterFacet, setFacet, searchValues, usePost, isHidden);
 
     return (
         <Facet name={name} hidden={hidden} setHidden={setHidden}>

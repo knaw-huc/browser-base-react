@@ -13,8 +13,8 @@ type SliderFacet = [
 
 export default function useSliderFacet(label: string, field: string,
                                        registerFacet: RegisterFacet, unregisterFacet: UnregisterFacet,
-                                       setFacet: FacetEvent, min: number, max: number): SliderFacet {
-    const [hidden, setHidden] = useFacet(registerFacet, unregisterFacet, label, field);
+                                       setFacet: FacetEvent, min: number, max: number, isHidden = true): SliderFacet {
+    const [hidden, setHidden] = useFacet(registerFacet, unregisterFacet, label, field, isHidden);
     const [[from, to], setRange] = useState<[from: number, to: number]>([min, max]);
 
     function handleChange(from: number, to: number) {

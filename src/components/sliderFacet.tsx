@@ -7,6 +7,7 @@ import './sliderFacet.css';
 interface SliderFacetParams extends FacetParams {
     min: number;
     max: number;
+    isHidden?: boolean;
 }
 
 export default function SliderFacet({
@@ -16,10 +17,11 @@ export default function SliderFacet({
                                         name,
                                         field,
                                         min,
-                                        max
+                                        max,
+                                        isHidden = true
                                     }: SliderFacetParams) {
     const [from, to, hidden, setHidden, handleChange, sendSelect] =
-        useSliderFacet(name, field, registerFacet, unregisterFacet, setFacet, min, max);
+        useSliderFacet(name, field, registerFacet, unregisterFacet, setFacet, min, max, isHidden);
 
     return (
         <Facet name={name} hidden={hidden} setHidden={setHidden}>
