@@ -29,6 +29,15 @@ export interface RouterProps<D, R> extends PageHeaderProps, HomeProps, DetailPro
 }
 
 export default function Router<D, R>(props: RouterProps<D, R>) {
+    props = {
+        hasIndexPage: true,
+        withPaging: true,
+        updateDocumentTitle: true,
+        showSearchHeader: true,
+        searchParams: SearchParams.CODE,
+        ...props
+    };
+
     const appElement = props.AppComponent ? (
         <props.AppComponent>
             <ScrollRestoration/>
@@ -50,7 +59,7 @@ export default function Router<D, R>(props: RouterProps<D, R>) {
         default:
             const codeSearchLoader = createSearchLoader(getSearchObjectFromCode, props.searchUrl, props.pageLength, props.sortOrder);
             searchLoader = async ({params}: LoaderFunctionArgs) => codeSearchLoader(params.code);
-            searchPath = props.hasIndexPage ? 'search/:code' : ':code';
+            searchPath = props.hasIndexPage ? 'search/:code?' : ':code?';
     }
 
     const detailLoader = async ({params}: LoaderFunctionArgs) => fetch(props.getFetchUrl(params.id as string));
