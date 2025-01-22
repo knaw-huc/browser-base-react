@@ -1,5 +1,4 @@
 import {useEffect, useState, FormEvent} from 'react';
-import {FacetEvent, RegisterFacet, UnregisterFacet, SearchValues} from './useSearch.js';
 import useFacet from './useFacet.js';
 
 interface FacetValue {
@@ -18,11 +17,9 @@ type ListFacet = [
     (e: FormEvent<HTMLInputElement>) => void
 ];
 
-export default function useListFacet(label: string, field: string, url: string,
-                                     registerFacet: RegisterFacet, unregisterFacet: UnregisterFacet,
-                                     setFacet: FacetEvent, searchValues?: SearchValues[], usePost: boolean = false,
+export default function useListFacet(label: string, field: string, url: string, usePost: boolean = false,
                                      isHidden = true, startAmount: number = 10, moreAmount: number = 500): ListFacet {
-    const [hidden, setHidden] = useFacet(registerFacet, unregisterFacet, label, field, isHidden);
+    const [hidden, setHidden, searchValues, setFacet] = useFacet(label, field, isHidden);
     const [data, setData] = useState<FacetValue[]>([]);
     const [filter, setFilter] = useState('');
     const [amount, setAmount] = useState(10);

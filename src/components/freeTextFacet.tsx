@@ -3,14 +3,10 @@ import Facet, {DefaultFacetParams} from './facet.js';
 import useFreeTextFacet from '../hooks/useFreeTextFacet.js';
 
 export default function FreeTextFacet({
-                                          registerFacet,
-                                          unregisterFacet,
-                                          setFacet,
                                           name = 'Text search',
                                           field = 'FREE_TEXT'
                                       }: DefaultFacetParams) {
-    const [textField, setTextFacet, handleChange, handleKeyPress] =
-        useFreeTextFacet(registerFacet, unregisterFacet, setFacet, name, field);
+    const [textField, setTextFacet, handleChange, handleKeyPress] = useFreeTextFacet(name, field);
 
     return (
         <Facet name={name}>

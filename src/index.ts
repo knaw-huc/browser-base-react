@@ -1,6 +1,5 @@
 import useSearch, {
     LabeledSearchValues,
-    SearchValues,
     RegisterFacet,
     UnregisterFacet,
     FacetEvent,
@@ -9,6 +8,8 @@ import useSearch, {
 import useFreeTextFacet from './hooks/useFreeTextFacet.js';
 import useListFacet from './hooks/useListFacet.js';
 import useSliderFacet from './hooks/useSliderFacet.js';
+
+import {SearchValues} from './context/SearchContext.js'
 
 import createSearchLoader from './loaders/searchLoader.js';
 import createDetailLoader from './loaders/detailLoader.js';

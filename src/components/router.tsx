@@ -67,9 +67,8 @@ export default function Router<D, R>(props: RouterProps<D, R>) {
     const searchElement =
         <Search title={props.title} pageLength={props.pageLength} hasIndexPage={props.hasIndexPage}
                 withPaging={props.withPaging} updateDocumentTitle={props.updateDocumentTitle}
-                searchParams={props.searchParams}
-                FacetsComponent={props.FacetsComponent} ResultItemComponent={props.ResultItemComponent}
-                headersElement={props.headersElement}/>;
+                searchParams={props.searchParams} facetsElement={props.facetsElement}
+                ResultItemComponent={props.ResultItemComponent} headersElement={props.headersElement}/>;
 
     const children: RouteObject[] = [
         ...(props.childRoutes || []),

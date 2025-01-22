@@ -1,5 +1,4 @@
 import React, {ReactNode} from 'react';
-import {FacetEvent, RegisterFacet, UnregisterFacet} from '../hooks/useSearch.js';
 
 export interface FacetParams extends DefaultFacetParams {
     name: string;
@@ -7,9 +6,6 @@ export interface FacetParams extends DefaultFacetParams {
 }
 
 export interface DefaultFacetParams {
-    registerFacet: RegisterFacet;
-    unregisterFacet: UnregisterFacet;
-    setFacet: FacetEvent;
     name?: string;
     field?: string;
 }

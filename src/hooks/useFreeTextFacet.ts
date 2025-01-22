@@ -1,5 +1,4 @@
 import {useState, FormEvent, KeyboardEvent} from 'react';
-import {FacetEvent, RegisterFacet, UnregisterFacet} from './useSearch.js';
 import useFacet from './useFacet.js';
 
 type FreeTextFacet = [
@@ -9,10 +8,8 @@ type FreeTextFacet = [
     (e: KeyboardEvent<HTMLInputElement>) => void
 ];
 
-export default function useFreeTextFacet(registerFacet: RegisterFacet, unregisterFacet: UnregisterFacet,
-                                         setFacet: FacetEvent,
-                                         label: string = 'Free text', field: string = 'FREE_TEXT'): FreeTextFacet {
-    useFacet(registerFacet, unregisterFacet, label, field);
+export default function useFreeTextFacet(label: string = 'Free text', field: string = 'FREE_TEXT'): FreeTextFacet {
+    const [hidden, setHidden, searchValues, setFacet] = useFacet(label, field);
     const [textField, setTextField] = useState('');
 
     function handleChange(e: React.FormEvent<HTMLInputElement>): void {

@@ -1,5 +1,5 @@
 import {createRoot} from 'react-dom/client';
-import {Router, FreeTextFacet, ListFacet, FacetsParams} from '@knaw-huc/browser-base-react';
+import {Router, FreeTextFacet, ListFacet} from '@knaw-huc/browser-base-react';
 import serverMockWorker from './serverMock.ts';
 
 await serverMockWorker.start();
@@ -14,7 +14,7 @@ function App() {
                 pageLength={10}
                 DetailComponent={MyDetail}
                 ResultItemComponent={MyListDetails}
-                FacetsComponent={MyFacets}/>
+                facetsElement={<MyFacets/>}/>
     );
 }
 
@@ -36,20 +36,11 @@ function MyListDetails({item: {id, title, content}}: { item: { id: number, title
     );
 }
 
-function MyFacets({registerFacet, unregisterFacet, setFacet, searchValues}: FacetsParams) {
+function MyFacets() {
     return (
         <>
-            <FreeTextFacet
-                registerFacet={registerFacet}
-                unregisterFacet={unregisterFacet}
-                setFacet={setFacet}/>
-
-            <ListFacet
-                registerFacet={registerFacet}
-                unregisterFacet={unregisterFacet}
-                setFacet={setFacet}
-                searchValues={searchValues}
-                name="Profession" field="profession" url="https://example.org/facet"/>
+            <FreeTextFacet/>
+            <ListFacet name="Profession" field="profession" url="https://example.org/facet"/>
         </>
     );
 }

@@ -5,9 +5,9 @@ import useSearch, {
     RegisterFacet,
     UnregisterFacet,
     LabeledSearchValues,
-    SearchValues,
     SearchObject
 } from '../hooks/useSearch.js';
+import {SearchContextProvider, SearchValues} from '../context/SearchContext';
 import {getPages} from '../misc/paging.js';
 import {createCodeFromSearchObject, createParamsFromSearchObject} from '../misc/search.js';
 
@@ -35,7 +35,7 @@ export interface SearchProps<R> {
     showSearchHeader?: boolean;
     searchParams?: SearchParams;
     ResultItemComponent: FunctionComponent<{ item: R }>;
-    FacetsComponent: FunctionComponent<FacetsParams>;
+    facetsElement: ReactElement;
     headersElement?: ReactElement;
 }
 
@@ -48,24 +48,12 @@ export default function Search<R>({
                                       showSearchHeader = true,
                                       searchParams = SearchParams.CODE,
                                       ResultItemComponent,
-                                      FacetsComponent,
+                                      facetsElement,
                                       headersElement
                                   }: SearchProps<R>) {
     const navigate = useNavigate();
     const navigation = useNavigation();
-    const [{searchvalues, page}, {amount, pages, items}]
-        = useLoaderData() as [SearchObject, ResultList<R>];
-    const [
-        labeledSearchValues,
-        registerFacet,
-        unregisterFacet,
-        selectPage,
-        prevPage,
-        nextPage,
-        resetFacets,
-        removeFacet,
-        setFacet
-    ] = useSearch(searchvalues, page, doSearch);
+    const [{searchvalues, page}, {amount, pages, items}] = useLoaderData() as [SearchObject, ResultList<R>];
 
     if (updateDocumentTitle) {
         document.title = title ? `Search | ${title}` : 'Search';
@@ -89,44 +77,42 @@ export default function Search<R>({
     }
 
     return (
-        <div className="hcContentContainer">
-            {showSearchHeader && <div className="hcBasicSideMargin hcMarginBottom1">
-                <h1>Search</h1>
-            </div>}
+        <SearchContextProvider searchValues={searchvalues} page={page} onSearch={doSearch}>
+            <div className="hcContentContainer">
+                {showSearchHeader && <div className="hcBasicSideMargin hcMarginBottom1">
+                    <h1>Search</h1>
+                </div>}
 
-            <div className="hcLayoutFacet-Result hcBasicSideMargin">
-                <div className="hcLayoutFacets">
-                    <div className="hcLayoutFacetsToggel">
-                        <FacetsComponent registerFacet={registerFacet} unregisterFacet={unregisterFacet}
-                                         setFacet={setFacet} searchValues={searchvalues}/>
+                <div className="hcLayoutFacet-Result hcBasicSideMargin">
+                    <div className="hcLayoutFacets">
+                        <div className="hcLayoutFacetsToggel">
+                            {facetsElement}
+                        </div>
+                    </div>
+
+                    <div className="hcLayoutResults">
+                        <AmountAndPages withPaging={!!withPaging} amount={amount} page={page} pages={pages}/>
+
+                        <SelectedFacets/>
+
+                        {headersElement}
+
+                        {navigation.state === 'loading'
+                            ? <div className="hcResultListLoading">Loading...</div>
+                            : <>
+                                <div>
+                                    {items.map((item: R, index: number) =>
+                                        <ResultItemComponent item={item} key={index}/>
+                                    )}
+                                </div>
+
+                                {withPaging && amount > pageLength && <Paging page={page} pages={pages}/>}
+                            </>}
                     </div>
                 </div>
-
-                <div className="hcLayoutResults">
-                    <AmountAndPages withPaging={!!withPaging} amount={amount} page={page} pages={pages}/>
-
-                    <SelectedFacets labeledSearchValues={labeledSearchValues}
-                                    resetFacets={resetFacets} removeFacet={removeFacet}/>
-
-                    {headersElement}
-
-                    {navigation.state === 'loading'
-                        ? <div className="hcResultListLoading">Loading...</div>
-                        : <>
-                            <div>
-                                {items.map((item: R, index: number) =>
-                                    <ResultItemComponent item={item} key={index}/>
-                                )}
-                            </div>
-
-                            {withPaging && amount > pageLength &&
-                                <Paging page={page} pages={pages}
-                                        prevPage={prevPage} nextPage={nextPage} selectPage={selectPage}/>}
-                        </>}
-                </div>
             </div>
-        </div>
-    )
+        </SearchContextProvider>
+    );
 }
 
 interface AmountAndPagesParams {
@@ -148,13 +134,9 @@ function AmountAndPages({withPaging, amount, page, pages}: AmountAndPagesParams)
     );
 }
 
-interface SelectedFacetsParams {
-    labeledSearchValues: LabeledSearchValues[];
-    resetFacets: () => void;
-    removeFacet: (name: string, value: string) => void;
-}
+function SelectedFacets() {
+    const {labeledSearchValues, resetFacets, removeFacet} = useSearch();
 
-function SelectedFacets({labeledSearchValues, resetFacets, removeFacet}: SelectedFacetsParams) {
     return (
         <div className="hcMarginBottom2">
             <div className="hcSmallTxt hcTxtColorGreyMid">Selected facets:
@@ -184,12 +166,11 @@ function SelectedFacets({labeledSearchValues, resetFacets, removeFacet}: Selecte
 interface PagingParams {
     page: number;
     pages: number;
-    prevPage: () => void;
-    nextPage: () => void;
-    selectPage: (page: number) => void;
 }
 
-function Paging({page, pages, prevPage, nextPage, selectPage}: PagingParams) {
+function Paging({page, pages}: PagingParams) {
+    const {selectPage, prevPage, nextPage} = useSearch();
+
     return (
         <div className="hcPagination">
             {page > 1 && <div className="hcClickable" onClick={prevPage}>&#8592; Previous</div>}

@@ -1,5 +1,4 @@
 import {useState} from 'react';
-import {FacetEvent, RegisterFacet, UnregisterFacet} from './useSearch.js';
 import useFacet from './useFacet.js';
 
 type SliderFacet = [
@@ -11,10 +10,8 @@ type SliderFacet = [
     () => void
 ];
 
-export default function useSliderFacet(label: string, field: string,
-                                       registerFacet: RegisterFacet, unregisterFacet: UnregisterFacet,
-                                       setFacet: FacetEvent, min: number, max: number, isHidden = true): SliderFacet {
-    const [hidden, setHidden] = useFacet(registerFacet, unregisterFacet, label, field, isHidden);
+export default function useSliderFacet(label: string, field: string, min: number, max: number, isHidden = true): SliderFacet {
+    const [hidden, setHidden, searchValues, setFacet] = useFacet(label, field, isHidden);
     const [[from, to], setRange] = useState<[from: number, to: number]>([min, max]);
 
     function handleChange(from: number, to: number) {

@@ -11,9 +11,6 @@ interface SliderFacetParams extends FacetParams {
 }
 
 export default function SliderFacet({
-                                        registerFacet,
-                                        unregisterFacet,
-                                        setFacet,
                                         name,
                                         field,
                                         min,
@@ -21,7 +18,7 @@ export default function SliderFacet({
                                         isHidden = true
                                     }: SliderFacetParams) {
     const [from, to, hidden, setHidden, handleChange, sendSelect] =
-        useSliderFacet(name, field, registerFacet, unregisterFacet, setFacet, min, max, isHidden);
+        useSliderFacet(name, field, min, max, isHidden);
 
     return (
         <Facet name={name} hidden={hidden} setHidden={setHidden}>

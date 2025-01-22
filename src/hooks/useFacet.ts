@@ -1,10 +1,16 @@
 import {useEffect, useState} from 'react';
-import {RegisterFacet, UnregisterFacet} from './useSearch.js';
+import useSearch, {FacetEvent} from './useSearch.js';
+import {SearchValues} from '../context/SearchContext';
 
-type Facet = [boolean, (hidden: boolean) => void];
+type Facet = [
+    boolean,
+    (hidden: boolean) => void,
+    SearchValues[],
+    FacetEvent
+];
 
-export default function useFacet(registerFacet: RegisterFacet, unregisterFacet: UnregisterFacet,
-                                 label: string, field: string, isHidden: boolean = true): Facet {
+export default function useFacet(label: string, field: string, isHidden: boolean = true): Facet {
+    const {registerFacet, unregisterFacet, searchValues, setFacet} = useSearch();
     const [hidden, setHidden] = useState(isHidden);
 
     useEffect(() => {
@@ -12,5 +18,5 @@ export default function useFacet(registerFacet: RegisterFacet, unregisterFacet: 
         return () => unregisterFacet(field);
     }, [field]);
 
-    return [hidden, setHidden];
+    return [hidden, setHidden, searchValues, setFacet];
 };

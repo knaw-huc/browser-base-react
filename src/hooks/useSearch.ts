@@ -1,28 +1,21 @@
-import {useState} from 'react';
+import {useContext} from 'react';
+import {Facets, SearchContext, SearchValues} from '../context/SearchContext';
 
-type Search = [
-    LabeledSearchValues[],
-    RegisterFacet,
-    UnregisterFacet,
-    (page: number) => void,
-    () => void,
-    () => void,
-    () => void,
-    FacetEvent,
-    FacetEvent,
-];
-
-interface Facets {
-    [field: string]: string
+interface Search {
+    searchValues: SearchValues[];
+    labeledSearchValues: LabeledSearchValues[];
+    registerFacet: RegisterFacet;
+    unregisterFacet: UnregisterFacet;
+    selectPage: (page: number) => void;
+    prevPage: () => void;
+    nextPage: () => void;
+    resetFacets: () => void;
+    removeFacet: FacetEvent;
+    setFacet: FacetEvent;
 }
 
 export type RegisterFacet = (field: string, label: string) => void;
 export type UnregisterFacet = (field: string) => void;
-
-export interface SearchValues {
-    field: string,
-    values: string[]
-}
 
 export interface LabeledSearchValues extends SearchValues {
     label: string;
@@ -37,8 +30,8 @@ export interface SearchObject {
     sortorder?: string;
 }
 
-export default function useSearch(searchValues: SearchValues[], page: number, onSearch: (searchValues: SearchValues[], page: number) => void): Search {
-    const [facets, setFacets] = useState<Facets>({});
+export default function useSearch(): Search {
+    const {facets, setFacets, searchValues, page, onSearch} = useContext(SearchContext)!;
 
     const labeledSearchValues = searchValues.reduce<LabeledSearchValues[]>((acc, values) => {
         if (values.field in facets) {
@@ -124,7 +117,8 @@ export default function useSearch(searchValues: SearchValues[], page: number, on
         onSearch(newSearchValues, 1);
     }
 
-    return [
+    return {
+        searchValues,
         labeledSearchValues,
         registerFacet,
         unregisterFacet,
@@ -134,5 +128,5 @@ export default function useSearch(searchValues: SearchValues[], page: number, on
         resetFacets,
         removeFacet,
         setFacet
-    ];
+    };
 }
