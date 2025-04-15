@@ -5,7 +5,7 @@ type SliderFacet = [
     number,
     number,
     boolean,
-    (hidden: boolean) => void,
+    (hidden: boolean | ((hidden: boolean) => boolean)) => void,
     (from: number, to: number) => void,
     () => void
 ];

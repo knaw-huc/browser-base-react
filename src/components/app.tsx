@@ -1,12 +1,14 @@
-import React, {ReactElement} from 'react';
-import {Outlet, ScrollRestoration} from 'react-router-dom';
+import React, {ReactNode, ReactElement} from 'react';
 
-export default function App({header, footer}: { header: ReactElement, footer?: ReactElement }) {
+export default function App({header, footer, children}: {
+    header: ReactElement,
+    footer?: ReactElement,
+    children: ReactNode
+}) {
     return (
         <>
             {header}
-            <ScrollRestoration/>
-            <Outlet/>
+            {children}
             {footer}
         </>
     );

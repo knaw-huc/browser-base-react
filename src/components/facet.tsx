@@ -13,14 +13,14 @@ export interface DefaultFacetParams {
 interface Params {
     name: string;
     hidden?: boolean;
-    setHidden?: (hidden: boolean) => void;
+    setHidden?: (hidden: boolean | ((hidden: boolean) => boolean)) => void;
     children: ReactNode
 }
 
 export default function Facet({name, hidden = false, setHidden, children}: Params) {
     return (
         <div className="hcFacet">
-            <div className="hcFacetTitle" onClick={() => setHidden && setHidden(!hidden)}>
+            <div className="hcFacetTitle" onClick={() => setHidden && setHidden(hidden => !hidden)}>
                 <span>{name}</span>
 
                 {setHidden && <span className="hcIconHelp">

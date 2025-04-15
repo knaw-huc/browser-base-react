@@ -10,7 +10,7 @@ type ListFacet = [
     FacetValue[],
     boolean,
     boolean,
-    (hidden: boolean) => void,
+    (hidden: boolean | ((hidden: boolean) => boolean)) => void,
     boolean,
     () => void,
     (value: string) => void,

@@ -45,7 +45,10 @@ export default function Router<D, R>(props: RouterProps<D, R>) {
         </props.AppComponent>
     ) : (
         <App header={props.headerElement ||
-            <PageHeader title={props.title} logo={props.logo} items={props.items}/>} footer={props.footerElement}/>
+            <PageHeader title={props.title} logo={props.logo} items={props.items}/>} footer={props.footerElement}>
+            <ScrollRestoration/>
+            <Outlet/>
+        </App>
     );
 
     let searchLoader, searchPath;

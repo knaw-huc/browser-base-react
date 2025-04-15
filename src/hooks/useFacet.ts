@@ -4,7 +4,7 @@ import {SearchValues} from '../context/SearchContext';
 
 type Facet = [
     boolean,
-    (hidden: boolean) => void,
+    (hidden: boolean | ((hidden: boolean) => boolean)) => void,
     SearchValues[],
     FacetEvent
 ];
