@@ -1,9 +1,17 @@
 import {useEffect, useState, FormEvent} from 'react';
 import useFacet from './useFacet.js';
+import {SearchValues} from '../context/SearchContext';
 
-interface FacetValue {
+export interface FacetValue {
     key: string,
     doc_count: number
+}
+
+export interface FacetsRequestParams {
+    name: string;
+    amount: number;
+    filter: string;
+    searchvalues: SearchValues[];
 }
 
 type ListFacet = [
@@ -17,8 +25,10 @@ type ListFacet = [
     (e: FormEvent<HTMLInputElement>) => void
 ];
 
-export default function useListFacet(label: string, field: string, url: string, usePost: boolean = false,
-                                     isHidden = true, startAmount: number = 10, moreAmount: number = 500): ListFacet {
+export default function useListFacet(label: string, field: string, url: string,
+                                     usePost: boolean = false, isHidden = true,
+                                     facetsRequest?: ((params: FacetsRequestParams) => Promise<FacetValue[]>),
+                                     startAmount: number = 10, moreAmount: number = 500): ListFacet {
     const [hidden, setHidden, searchValues, setFacet] = useFacet(label, field, isHidden);
     const [data, setData] = useState<FacetValue[]>([]);
     const [filter, setFilter] = useState('');
@@ -44,10 +54,21 @@ export default function useListFacet(label: string, field: string, url: string, 
     async function fetchData() {
         setLoading(true);
 
-        const response = await (usePost ? doPost() : doGet());
-        const json = await response.json();
+        if (facetsRequest) {
+            const response = await facetsRequest({
+                name: field,
+                amount: amount,
+                filter: filter,
+                searchvalues: searchValues
+            });
+            setData(response);
+        }
+        else {
+            const response = await (usePost ? doPost() : doGet());
+            const json = await response.json();
+            setData(json);
+        }
 
-        setData(json);
         setLoading(false);
     }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import Facet, {FacetParams} from './facet.js';
-import useListFacet from '../hooks/useListFacet.js';
+import useListFacet, {FacetsRequestParams, FacetValue} from '../hooks/useListFacet.js';
 
 interface ListFacetParams extends FacetParams {
     url: string;
@@ -8,6 +8,7 @@ interface ListFacetParams extends FacetParams {
     flex?: boolean;
     addFilter?: boolean;
     isHidden?: boolean;
+    facetsRequest?: ((params: FacetsRequestParams) => Promise<FacetValue[]>);
 }
 
 export default function ListFacet({
@@ -17,12 +18,13 @@ export default function ListFacet({
                                       usePost = false,
                                       flex = true,
                                       addFilter = false,
-                                      isHidden = true
+                                      isHidden = true,
+                                      facetsRequest
                                   }: ListFacetParams) {
     const [
         data, loading, hidden, setHidden,
         more, changeListLength, sendCandidate, handleChange
-    ] = useListFacet(name, field, url, usePost, isHidden);
+    ] = useListFacet(name, field, url, usePost, isHidden, facetsRequest);
 
     return (
         <Facet name={name} hidden={hidden} setHidden={setHidden}>

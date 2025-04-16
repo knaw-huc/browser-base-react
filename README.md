@@ -85,15 +85,16 @@ It returns an array with the following values/functions for user interaction:
 The `useListFacet` hook is used to set up a facet with a list. The hook is initialized with the following
 parameters:
 
-| Parameter     | Value type |                                                                                                                 |
-|---------------|------------|-----------------------------------------------------------------------------------------------------------------|
-| `label`       | `string`   | The label of the facet                                                                                          |
-| `field`       | `string`   | The field of the facet                                                                                          |
-| `url`         | `string`   | The URL to obtain the facet values from                                                                         |
-| `usePost`     | `boolean`  | Whether to do a POST call to obtain the values; is required for the use of `searchValues` (defaults to `false`) |
-| `startAmount` | `number`   | The number of initial values to show (defaults to `10`)                                                         |
-| `moreAmount`  | `number`   | The upper limit for all values to show (defaults to `500`)                                                      |
-| `isHidden`    | `boolean`  | Whether to start the facet hidden? (defaults to `true`)                                                         |
+| Parameter       | Value type                                               |                                                                                                                 |
+|-----------------|----------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
+| `label`         | `string`                                                 | The label of the facet                                                                                          |
+| `field`         | `string`                                                 | The field of the facet                                                                                          |
+| `url`           | `string`                                                 | The URL to obtain the facet values from                                                                         |
+| `usePost`       | `boolean`                                                | Whether to do a POST call to obtain the values; is required for the use of `searchValues` (defaults to `false`) | 
+| `isHidden`      | `boolean`                                                | Whether to start the facet hidden? (defaults to `true`)                                                         |
+| `facetsRequest` | `(params: FacetsRequestParams) => Promise<FacetValue[]>` | A function to call to obtain the facet values; if absent the default function is used                           |
+| `startAmount`   | `number`                                                 | The number of initial values to show (defaults to `10`)                                                         |
+| `moreAmount`    | `number`                                                 | The upper limit for all values to show (defaults to `500`)                                                      |
 
 It returns an array with the following values/functions for user interaction:
 
@@ -193,7 +194,8 @@ All available parameters:
 ### Components `Search` and `Detail`
 
 The React components `Search` and `Detail` can be used to set up your own routing for the search and detail pages. To
-create loaders for React Router, use the helper functions `createSearchLoader` and `createDetailLoader`.
+create loaders for React Router, use the helper functions `createSearchLoader` and `createDetailLoader`. The created
+loaders can be called with additional headers to be added to the request.
 
 ```jsx
 const codeSearchLoader = createSearchLoader(searchUtils.getSearchObjectFromCode, "http://localhost:5000/browse");
@@ -267,15 +269,16 @@ A component `FreeTextFacet` to allow for free text searching which accepts the p
 
 A component `ListFacet` to render a list of possible values to filter on which accepts the parameters:
 
-| Parameter   | Value type | Required |                                                                                |
-|-------------|------------|----------|--------------------------------------------------------------------------------|
-| `name`      | `string`   | ✓        | The label of the facet                                                         |
-| `field`     | `string`   | ✓        | The field of the facet                                                         |
-| `url`       | `string`   | ✓        | The URL to obtain the facet values from                                        |
-| `usePost`   | `boolean`  |          | Whether to do a POST call to obtain the values; (defaults to `false`)          |
-| `flex`      | `boolean`  |          | Whether to show a toggle for more/less values (defaults to `true`)             |
-| `addFilter` | `boolean`  |          | Whether to add a filter field to filter the facet values (defaults to `false`) |
-| `isHidden`  | `boolean`  |          | Whether to start the facet hidden? (defaults to `true`)                        |
+| Parameter        | Value type                                               | Required |                                                                                       |
+|------------------|----------------------------------------------------------|----------|---------------------------------------------------------------------------------------|
+| `name`           | `string`                                                 | ✓        | The label of the facet                                                                |
+| `field`          | `string`                                                 | ✓        | The field of the facet                                                                |
+| `url`            | `string`                                                 | ✓        | The URL to obtain the facet values from                                               |
+| `usePost`        | `boolean`                                                |          | Whether to do a POST call to obtain the values; (defaults to `false`)                 |
+| `flex`           | `boolean`                                                |          | Whether to show a toggle for more/less values (defaults to `true`)                    |
+| `addFilter`      | `boolean`                                                |          | Whether to add a filter field to filter the facet values (defaults to `false`)        |
+| `isHidden`       | `boolean`                                                |          | Whether to start the facet hidden? (defaults to `true`)                               |
+| `facetsRequest`  | `(params: FacetsRequestParams) => Promise<FacetValue[]>` |          | A function to call to obtain the facet values; if absent the default function is used |
 
 #### Component `SliderFacet`
 

@@ -2,7 +2,7 @@ import {SearchObject} from '../hooks/useSearch.js';
 
 export default function createSearchLoader<I>(searchCodeLoader: (i: I) => SearchObject, searchUrl: string,
                                               initialPageLength?: number, initialSortOrder?: string) {
-    return async (i?: I) => {
+    return async (i?: I, additionalHeaders?: { [key: string]: string }) => {
         const searchStruc = {
             ...(i ? searchCodeLoader(i) : {searchvalues: [], page: 1}),
             page_length: initialPageLength,
@@ -13,7 +13,8 @@ export default function createSearchLoader<I>(searchCodeLoader: (i: I) => Search
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                ...additionalHeaders
             },
             body: JSON.stringify(searchStruc)
         });
