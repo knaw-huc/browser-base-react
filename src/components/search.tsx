@@ -91,11 +91,10 @@ export default function Search<R>({
                     </div>
 
                     <div className="hcLayoutResults">
-                        <AmountAndPages withPaging={!!withPaging} amount={amount} page={page} pages={pages}/>
-
-                        <SelectedFacets/>
-
                         {headersElement}
+
+                        <AmountAndPages withPaging={!!withPaging} amount={amount} page={page} pages={pages}/>
+                        <SelectedFacets/>
 
                         {navigation.state === 'loading'
                             ? <div className="hcResultListLoading">Loading...</div>
